@@ -18,11 +18,11 @@ django-extensions = "*"
 django-anymail = "*"
 
 [dev-packages]
-flake8 = "*"
 pytest = "*"
 pytest-mock = "*"
 pytest-django = "*"
 model-bakery = "*"
+pytest-cov = "*"
 
 [requires]
-python_version = "3.9"
+python_version = "3.8.2"
