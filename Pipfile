@@ -22,6 +22,7 @@ pytest = "*"
 pytest-mock = "*"
 pytest-django = "*"
 model-bakery = "*"
+pytest-cov = "*"
 
 [requires]
 python_version = "3.8.2"
