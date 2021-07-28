@@ -30,7 +30,7 @@ def test_login_form_page(resp):
 
 def test_login_redirect(resp_post):
     assert resp_post.status_code == 302  # status code de redirecionamento
-    assert resp_post.url == "/"
+    assert resp_post.url == "/pedidos/"
 
 
 @pytest.fixture

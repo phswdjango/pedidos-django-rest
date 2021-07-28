@@ -6,7 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}PH - Soluções Web{% endblock title %}</title>
-    <meta name="description" content="{% block description %}Soluções web para gestão empresarial{% endblock description %}">
+    <meta name="description"
+          content="{% block description %}Soluções web para gestão empresarial{% endblock description %}">
     <meta name="author" content="PH - Soluções Web">
 
     <link rel="icon" type="image/jpg" href="{% static 'img/favicon.jpg' %}"/>
@@ -18,70 +19,93 @@
 </head>
 <body>
 <!-- Nav bar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'base:home' %}">PH - Soluções Web</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+<div id="page-wrapper">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'base:home' %}">
+                <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+                     width="80px" height="70px" viewBox="0 0 212.000000 199.000000"
+                     preserveAspectRatio="xMidYMid meet">
+                    <g transform="translate(0.000000,199.000000) scale(0.100000,-0.100000)"
+                       fill="#ffffff" stroke="none">
+                        <path d="M 1130 1558 L 1130 1215 L 898 1070 C 770 990 649 915 628 902 L 590 879 L 590 1037 L 590 1196 L 720 1280 L 850 1364 L 850 1512 L 850 1660 L 625 1660 L 400 1660 L 400 1118 L 399 575 L 352 546 C 326 530 271 495 229 469 C 188 442 151 420 147 420 C 143 420 140 753 140 1160 L 140 1900 L 635 1900 L 1130 1900 L 1130 1558 Z M 1930 1045 L 1930 330 L 1780 330 L 1630 330 L 1630 676 C 1630 949 1627 1021 1618 1017 C 1611 1014 1499 946 1370 866 L 1135 719 L 1130 409 L 1125 99 L 988 192 L 851 285 L 850 576 L 850 867 L 1240 1106 L 1629 1345 L 1630 1553 L 1630 1760 L 1780 1760 L 1930 1760 L 1930 1045 Z"/>
+                    </g>
+                </svg>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
 
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            </button>
 
-            </ul>
-        </div>
-        {% if user.is_authenticated %}
-        <ul class="navbar-nav">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                   data-bs-toggle="dropdown" aria-expanded="false">
-                    {{user.first_name}}
-                </a>
-
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <div class="dropdown-item">
-                        <a class="btn btn-danger" href="{% url 'logout' %}">Sair</a>
-                    </div>
-                </div>
-            </li>
-        </ul>
-        {% else %}
-        <a class="btn btn-light my-2" href="{% url 'login' %}">Entrar</a>
-        {% endif %}
-    </div>
-    <!-- Fim da nav bar -->
-</nav>
-<!-- Body -->
-{% block body %}{% endblock body %}
-<!-- Fim do body -->
-<!-- footer-->
-<footer class="main-footer mt-5 pt-4 text-light">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <h3>Entre em Contato</h3>
-                <address>
-                    62 99337-8753
-                    <br/>
-                    <a href="mailto:contato@phsolucoesweb.com.br" class="text-light">contato@phsolucoesweb.com.br</a>
-                </address>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'pedidos:pedidos' %}">Pedidos</a>
+                    </li>
+                </ul>
             </div>
+
+
+            {% if user.is_authenticated %}
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        {{user.first_name}}
+                    </a>
+
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <div class="dropdown-item">
+                            <a class="btn btn-danger" href="{% url 'logout' %}">Sair</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            {% else %}
+            <a class="btn btn-light my-2" href="{% url 'login' %}">Entrar</a>
+            {% endif %}
         </div>
+        <!-- Fim da nav bar -->
+    </nav>
+    <!-- Body -->
+    <div class="container-fluid mr-auto mb-3 mt-3">
+
+        {% block body %}
+        {% endblock body %}
 
     </div>
-    <div class="rights pb-4">
+    <!-- Fim do body -->
+    <div id="add-footer-margin"></div>
+    <!-- footer-->
+    <footer class="main-footer pt-4 text-light">
         <div class="container">
             <div class="row">
                 <div class="col">
-                    {% now 'Y' %} PH - Soluções Web.
+                    <h3>Entre em Contato</h3>
+                    <address>
+                        62 99337-8753
+                        <br/>
+                        <a href="mailto:contato@phsolucoesweb.com.br"
+                           class="text-light">contato@phsolucoesweb.com.br</a>
+                    </address>
+                </div>
+            </div>
+
+        </div>
+        <div class="footer-bottom pb-4">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        {% now 'Y' %} PH - Soluções Web.
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</footer>
-<!-- Fim do footer -->
-
+    </footer>
+    <!-- Fim do footer -->
+</div>
 </body>
 </html>

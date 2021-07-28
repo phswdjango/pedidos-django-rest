@@ -1,19 +1,28 @@
 /**  Empty CSS file for your own CSS**/
-/**
+html, body {
+padding: 0px;
+margin: 0px;
+height: 100%;
+}
+
+#page-wrapper {
+min-height: 100%;
+position: relative;
+}
+
+#add-footer-margin {
+padding-top: 200px;
+}
+
 .main-footer{
-    background-color: #4D4A4A ;
+    position: absolute;
+    background-color: #344658;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
 }
 
-.rights{
-    background-color: #2C2B2B;
-}
-
-**/
-.main-footer{
-    background-color: #344658 ;
-}
-
-.rights{
+.footer-bottom{
     background-color: #212529;
 }
 
