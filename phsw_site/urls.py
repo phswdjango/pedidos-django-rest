@@ -21,6 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('phsw_site.base.urls')),
     path('usuario/', include('django.contrib.auth.urls')),
+    path('pedidos/', include('phsw_site.pedidos.urls'))
 
 ]
 

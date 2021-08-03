@@ -36,7 +36,7 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 # Login redirects
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/pedidos/'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = '/usuario/login/'
 
@@ -48,6 +48,7 @@ AUTH_USER_MODEL = 'base.User'
 
 INSTALLED_APPS = [
     'phsw_site.base',
+    'phsw_site.pedidos',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

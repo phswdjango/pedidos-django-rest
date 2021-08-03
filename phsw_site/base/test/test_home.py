@@ -18,7 +18,7 @@ def test_title(resp):
 
 
 def test_home_link(resp):
-    assert_contains(resp, f'<a class="navbar-brand" href="{reverse("base:home")}">PH - Soluções Web</a>')
+    assert_contains(resp, f'<a class="navbar-brand" href="{reverse("base:home")}">')
 
 
 def test_email_link(resp):

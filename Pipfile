@@ -16,6 +16,7 @@ django-ordered-model = "*"
 ipython = "*"
 django-extensions = "*"
 django-anymail = "*"
+gunicorn = "*"
 
 [dev-packages]
 pytest = "*"
@@ -25,4 +26,4 @@ model-bakery = "*"
 pytest-cov = "*"
 
 [requires]
-python_version = "3.8.2"
+python_version = "3.9"
