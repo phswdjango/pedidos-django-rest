@@ -18,7 +18,7 @@ from django.utils.translation import gettext, gettext_lazy as _
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
 
-from phsw_site.base.models import User
+from phsw_site.base.models import User, Empresa, StatusEmpresa, TipoEmpresa
 
 csrf_protect_m = method_decorator(csrf_protect)
 sensitive_post_parameters_m = method_decorator(sensitive_post_parameters())
@@ -45,7 +45,7 @@ class UserAdmin(admin.ModelAdmin):
     change_user_password_template = None
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        (_('Personal info'), {'fields': ('first_name', 'last_name')}),
+        (_('Personal info'), {'fields': ('first_name', 'last_name', 'cpf', 'fk_empresa')}),
         (_('Permissions'), {
             'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions'),
         }),
@@ -60,9 +60,9 @@ class UserAdmin(admin.ModelAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
     change_password_form = AdminPasswordChangeForm
-    list_display = ('email', 'first_name', 'last_name', 'is_staff')
+    list_display = ('email', 'first_name', 'last_name', 'is_staff', 'cpf', 'fk_empresa')
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
-    search_fields = ('first_name', 'email')
+    search_fields = ('first_name', 'email', 'fk_empresa')
     ordering = ('first_name',)
     filter_horizontal = ('groups', 'user_permissions',)
 
@@ -205,5 +205,25 @@ class UserAdmin(admin.ModelAdmin):
             request.POST = request.POST.copy()
             request.POST['_continue'] = 1
         return super().response_add(request, obj, post_url_continue)
+
+
+@admin.register(Empresa)
+class EmpresaAdmin(admin.ModelAdmin):
+    list_display = ('nome_empresa', 'cnpj', 'codigo_cliente', 'codigo_vendedor', 'fk_statusEmpresa', 'fk_tipoEmpresa', 'fk_tabelaPreco')
+    list_filter = ('nome_empresa', 'fk_tipoEmpresa')
+    search_fields = ('nome_empresa', 'cnpj')
+    ordering = ('nome_empresa',)
+
+
+@admin.register(StatusEmpresa)
+class StatusEmpresaAdmin(admin.ModelAdmin):
+    list_display = ('descricao', 'verbose_name')
+
+
+@admin.register(TipoEmpresa)
+class TipoEmpresaAdmin(admin.ModelAdmin):
+    list_display = ('descricao', 'verbose_name')
+
+
 
 
