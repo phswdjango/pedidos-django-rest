@@ -17,6 +17,7 @@ ipython = "*"
 django-extensions = "*"
 django-anymail = "*"
 gunicorn = "*"
+django-cpf-cnpj = "*"
 
 [dev-packages]
 pytest = "*"

@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'ordered_model',
     'django_extensions',
     'anymail',
+    'django_cpf_cnpj',
 ]
 
 MIDDLEWARE = [

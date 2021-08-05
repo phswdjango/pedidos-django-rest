@@ -4,8 +4,10 @@ from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.hashers import make_password
 from django.core.mail import send_mail
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from django_cpf_cnpj.fields import CPFField, CNPJField
 
 
 class UserManager(BaseUserManager):
@@ -76,6 +78,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(_('first name'), max_length=150, blank=True)
     last_name = models.CharField(_('last name'), max_length=150, blank=True)
     email = models.EmailField(_('email address'), unique=True)  # seta o email para indentificar o usuario
+    cpf = CPFField(masked=True, blank=True)
+    fk_empresa = models.ForeignKey('Empresa', blank=True, on_delete=models.PROTECT, null=True)
+
     is_staff = models.BooleanField(  # essa propriedade define os usuarios que podem acessar o admin do django
         _('staff status'),
         default=False,
@@ -123,3 +128,30 @@ class User(AbstractBaseUser, PermissionsMixin):
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
 
+class Empresa(models.Model):
+    fk_tabelaPreco = models.ForeignKey('pedidos.TabelaPreco', blank=True, null=True, on_delete=models.DO_NOTHING)
+    nome_empresa = models.CharField(max_length=60)
+    cnpj = CNPJField(masked=True, blank=True)
+    codigo_cliente = models.PositiveIntegerField(blank=True)
+    codigo_vendedor = models.PositiveIntegerField(blank=True)
+    fk_statusEmpresa = models.ForeignKey('StatusEmpresa', on_delete=models.DO_NOTHING)
+    fk_tipoEmpresa = models.ForeignKey('TipoEmpresa', on_delete=models.DO_NOTHING)
+
+    def __str__(self):
+        return f'Empresa: {self.nome_empresa}'
+
+
+class StatusEmpresa(models.Model):
+    descricao = models.TextField(default="sem descrição")
+    verbose_name = models.CharField(max_length=15)
+
+    def __str__(self):
+        return f'Status: {self.verbose_name}'
+
+
+class TipoEmpresa(models.Model):
+    descricao = models.CharField(max_length=100)
+    verbose_name = models.CharField(max_length=15)
+
+    def __str__(self):
+        return f'Tipo de empresa: {self.verbose_name}'
