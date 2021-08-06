@@ -36,7 +36,7 @@ class TabelaPreco(models.Model):
 
 class Pedido(models.Model):
     fk_empresa = models.ForeignKey('base.Empresa', on_delete=models.CASCADE)
-    fk_usuario = models.ForeignKey('Item', on_delete=models.PROTECT)
+    fk_usuario = models.ForeignKey('base.User', on_delete=models.PROTECT)
     fk_status = models.ForeignKey('StatusPedido', on_delete=models.PROTECT)
     # numero_nota = formato(' 999.999.999')
     data_pedido = models.DateTimeField(default=timezone.now)

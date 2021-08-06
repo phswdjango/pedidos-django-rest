@@ -1,7 +1,10 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+from phsw_site.pedidos.models import Pedido
 
-# Create your views here.
 
 
+@login_required
 def pedidos(request):
-    return render(request, 'pedidos/pedidos.html')
+    pedidos = Pedido.objects.all()
+    return render(request, 'pedidos/pedidos.html', context={'pedidos': pedidos})
