@@ -78,8 +78,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(_('first name'), max_length=150, blank=True)
     last_name = models.CharField(_('last name'), max_length=150, blank=True)
     email = models.EmailField(_('email address'), unique=True)  # seta o email para indentificar o usuario
-    cpf = CPFField(masked=True, blank=True)
-    fk_empresa = models.ForeignKey('Empresa', blank=True, on_delete=models.PROTECT, null=True)
+    cpf = CPFField(masked=True, blank=True, verbose_name="CPF")
+    fk_empresa = models.ForeignKey('Empresa', blank=True, on_delete=models.PROTECT, null=True, verbose_name="Empresa")
 
     is_staff = models.BooleanField(  # essa propriedade define os usuarios que podem acessar o admin do django
         _('staff status'),
@@ -129,29 +129,29 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Empresa(models.Model):
-    fk_tabelaPreco = models.ForeignKey('pedidos.TabelaPreco', blank=True, null=True, on_delete=models.DO_NOTHING)
-    nome_empresa = models.CharField(max_length=60)
-    cnpj = CNPJField(masked=True, blank=True)
-    codigo_cliente = models.PositiveIntegerField(blank=True)
-    codigo_vendedor = models.PositiveIntegerField(blank=True)
-    fk_statusEmpresa = models.ForeignKey('StatusEmpresa', on_delete=models.DO_NOTHING)
-    fk_tipoEmpresa = models.ForeignKey('TipoEmpresa', on_delete=models.DO_NOTHING)
+    fk_tabelaPreco = models.ForeignKey('pedidos.TabelaPreco', blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name="Tabela preço")
+    nome_empresa = models.CharField(max_length=60, verbose_name="Empresa")
+    cnpj = CNPJField(masked=True, blank=True, verbose_name="CNPJ")
+    codigo_cliente = models.CharField(blank=True, max_length=9, verbose_name="Código do cliente")
+    codigo_vendedor = models.CharField(blank=True, max_length=9, verbose_name="Código do vendedor")
+    fk_statusEmpresa = models.ForeignKey('StatusEmpresa', on_delete=models.DO_NOTHING, verbose_name="Status")
+    fk_tipoEmpresa = models.ForeignKey('TipoEmpresa', on_delete=models.DO_NOTHING, verbose_name="Tipo de empresa")
 
     def __str__(self):
         return f'Empresa: {self.nome_empresa}'
 
 
 class StatusEmpresa(models.Model):
-    descricao = models.TextField(default="sem descrição")
-    verbose_name = models.CharField(max_length=15)
+    descricao = models.TextField(default="sem descrição", verbose_name="Descrição")
+    verbose_name = models.CharField(max_length=15, verbose_name="Nome")
 
     def __str__(self):
         return f'Status: {self.verbose_name}'
 
 
 class TipoEmpresa(models.Model):
-    descricao = models.CharField(max_length=100)
-    verbose_name = models.CharField(max_length=15)
+    descricao = models.CharField(max_length=100, verbose_name="Descrição")
+    verbose_name = models.CharField(max_length=15, verbose_name="Nome")
 
     def __str__(self):
         return f'Tipo de empresa: {self.verbose_name}'
