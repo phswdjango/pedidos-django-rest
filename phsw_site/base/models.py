@@ -80,6 +80,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('email address'), unique=True)  # seta o email para indentificar o usuario
     cpf = CPFField(masked=True, blank=True, verbose_name="CPF")
     fk_empresa = models.ForeignKey('Empresa', blank=True, on_delete=models.PROTECT, null=True, verbose_name="Empresa")
+    is_agente_admin = models.BooleanField(default=False)
 
     is_staff = models.BooleanField(  # essa propriedade define os usuarios que podem acessar o admin do django
         _('staff status'),

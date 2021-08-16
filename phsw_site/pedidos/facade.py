@@ -8,9 +8,12 @@ def buscar_pedidos_do_usuario(request):
         'fk_empresa', 'fk_status')
 
 
-# def buscar_pedidos(request):
-#     return Pedido.objects.order_by('-data_pedido').filter(fk_usuario=request.user).select_related(
-#         'empresa__nome_empresa', 'statuspedido__verbose_name', 'user__first_name')
+def buscar_pedidos_do_agente_admin(request):
+    return Pedido.objects.order_by('-data_pedido').filter(fk_empresa=request.user.fk_empresa).select_related(
+        'fk_empresa', 'fk_status', 'fk_usuario')
+
+
+
 
 
 
