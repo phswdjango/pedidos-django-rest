@@ -27,15 +27,47 @@
     {% endfor %}
 
     </tbody>
-    <tfoot>
-    <tr>
-        <td>...</td>
-        <td>...</td>
-        <td>...</td>
-    </tr>
-    </tfoot>
+<!--    <tfoot>-->
+<!--    <tr>-->
+<!--        <td>...</td>-->
+<!--        <td>...</td>-->
+<!--        <td>...</td>-->
+<!--    </tr>-->
+<!--    </tfoot>-->
 
 </table>
 
+<div class="pagination">
+    <span class="step-links">
+        {% if pedidos.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ pedidos.previous_page_number }}">previous</a>
+        {% endif %}
 
+        <span class="current">
+            Page {{ pedidos.number }} of {{ pedidos.paginator.num_pages }}.
+        </span>
+        {% if pedidos.has_next %}
+            <a href="?page={{ pedidos.next_page_number }}">next</a>
+            <a href="?page={{ pedidos.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+      {% for pagina in pedidos.paginator.page_range %}
+      {% if pedidos.number == pagina %}
+    <li class="page-item active">
+        <a class="page-link" href="?page={{ pagina }}">{{pagina}}</a>
+    </li>
+      {% else %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ pagina }}">{{pagina}}</a>
+      </li>
+      {% endif %}
+
+      {% endfor %}
+  </ul>
+</nav>
 {% endblock body%}
