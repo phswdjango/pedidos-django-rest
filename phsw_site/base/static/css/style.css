@@ -26,3 +26,7 @@ padding-top: 200px;
     background-color: #212529;
 }
 
+.accordion-item .accordion-button  {
+    background-color: rgb(43, 120, 169);
+    color: #ffffff;
+}

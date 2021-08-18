@@ -18,6 +18,7 @@ django-extensions = "*"
 django-anymail = "*"
 gunicorn = "*"
 django-cpf-cnpj = "*"
+pillow = "*"
 
 [dev-packages]
 pytest = "*"

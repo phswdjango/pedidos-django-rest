@@ -1,6 +1,6 @@
-from . models import Pedido
+from .models import Pedido, Item, CategoriaItem
 # from django.shortcuts import get_object_or_404
-from django.db.models import Q, Value
+from django.db.models import Q, Value, Prefetch
 from django.db.models.functions import Concat
 
 def buscar_pedidos(request):
@@ -31,24 +31,13 @@ def buscar_pedidos(request):
     return Pedido.objects.order_by('-data_pedido').filter(fk_usuario=request.user).select_related(
         'fk_empresa', 'fk_status')
 
-    # if request.GET.get('termo'):
-    #     termo = request.GET.get('termo')
-    #     print("termo recebido: ", termo)
-    #     if request.user.is_agente_admin:
-    #         return Pedido.objects.order_by('-data_pedido').filter(fk_empresa=request.user.fk_empresa, fk_status__verbose_name=termo).select_related(
-    #             'fk_empresa', 'fk_status', 'fk_usuario')
-    #     return Pedido.objects.order_by('-data_pedido').filter(fk_usuario=request.user).select_related(
-    #         'fk_empresa', 'fk_status')
+
+def buscar_itens_por_categoria():
+    itens_ativados = Item.objects.filter(ativado=True)
+    return CategoriaItem.objects.prefetch_related(
+        Prefetch('item_set', queryset=itens_ativados, to_attr='itens')).all()
 
 
-
-
-    # usuario = User.objects.
-    # empresa =
-    # status =
-    # pedidos = Pedido.objects.order_by('data_pedido').prefetch_related(
-    #     Prefetch(), Prefetch(), Prefetch()
-    # ).all()
     # def trazer_modulos_com_aulas():  # prefetch_related serve pra evitar o N+1 em busca do lado 'N' pro lado '1'
     #     aulas_ordenadas = Aula.objects.order_by('order')
     #     return Modulo.objects.order_by('order').prefetch_related(

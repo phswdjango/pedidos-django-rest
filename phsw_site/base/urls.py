@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path
 from phsw_site.base import views
 
 app_name = 'base'
