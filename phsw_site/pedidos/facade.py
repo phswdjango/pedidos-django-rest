@@ -1,5 +1,5 @@
-from .models import Pedido, Item, CategoriaItem
-# from django.shortcuts import get_object_or_404
+from .models import Pedido, Item, CategoriaItem, ItemPedido
+from django.shortcuts import get_object_or_404
 from django.db.models import Q, Value, Prefetch
 from django.db.models.functions import Concat
 
@@ -38,7 +38,5 @@ def buscar_itens_por_categoria():
         Prefetch('item_set', queryset=itens_ativados, to_attr='itens')).all()
 
 
-    # def trazer_modulos_com_aulas():  # prefetch_related serve pra evitar o N+1 em busca do lado 'N' pro lado '1'
-    #     aulas_ordenadas = Aula.objects.order_by('order')
-    #     return Modulo.objects.order_by('order').prefetch_related(
-    #         Prefetch('aula_set', queryset=aulas_ordenadas, to_attr='aulas')).all()
+def buscar_pedido(request):
+    return ItemPedido.objects.filter(fk_pedido_id=request.GET.get('id_pedido')).all()

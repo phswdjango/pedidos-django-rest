@@ -27,6 +27,7 @@
         <th>Status</th>
         <th>Valor Total</th>
         <th>Data do pedido</th>
+        <th>Ver pedido</th>
     </tr>
     </thead>
     <tbody>
@@ -56,6 +57,12 @@
         {% endif %}
         <td>R$ {{pedido.valor_total}}</td>
         <td>{{pedido.data_pedido}}</td>
+        <td>
+            <form action="{% url 'pedidos:ver_pedido' %}" method="post" target="_blank" >
+                {% csrf_token %}
+                <button class="btn btn-primary" type="submit" value="{{ pedido.id }}" name="id_pedido">Ver pedido</button>
+            </form>
+        </td>
     </tr>
     {% endfor %}
 

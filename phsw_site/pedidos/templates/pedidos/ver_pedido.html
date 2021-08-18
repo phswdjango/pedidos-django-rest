@@ -1,0 +1,22 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}PHSW - Pedidos{% endblock title %}
+{% block body%}
+
+{% if pedido %}
+<ul class="list-group">
+  <li class="list-group-item active" aria-current="true">{{ pedido.nome }}</li>
+  {% for item in pedido %}
+    <li class="list-group-item">{{ item.fk_pedido }}</li>
+    <li class="list-group-item">{{ item.fk_item }}</li>
+    <li class="list-group-item">{{ item.quantidade }}</li>
+    <li class="list-group-item">{{ item.preco_unit }}</li>
+  {% endfor%}
+
+</ul>
+{% else %}
+<p>Pedido vazio</p>
+{% endif %}
+
+{% endblock body%}
+
