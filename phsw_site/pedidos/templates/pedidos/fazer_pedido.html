@@ -5,25 +5,25 @@
 <h2 class="mt-5">Todos os itens</h2>
 </br>
 <div class="accordion" id="accordionPanelsStayOpenExample">
+    {% for categoria in categorias %}
     <div class="accordion-item">
-        <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
-                    aria-controls="panelsStayOpen-collapseTwo">
-                Accordion Item #2
+        <h2 class="accordion-header" id="panelsStayOpen-heading-{{ categoria.id_categoria }}">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse-{{ categoria.id_categoria }}" aria-expanded="false"
+                    aria-controls="panelsStayOpen-collapse-{{ categoria.id_categoria }}">
+                {{ categoria.verbose_name }}
             </button>
         </h2>
-        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+        <div id="panelsStayOpen-collapse-{{ categoria.id_categoria }}" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-heading-{{ categoria.id_categoria }}">
             <div class="accordion-body">
                 <ul class="list-group">
-                    <li class="list-group-item">An item</li>
-                    <li class="list-group-item">A second item</li>
-                    <li class="list-group-item">A third item</li>
-                    <li class="list-group-item">A fourth item</li>
-                    <li class="list-group-item">And a fifth one</li>
+                    {% for item in categoria.itens %}
+                    <li class="list-group-item">{{ item.verbose_name }}</li>
+                    {% endfor %}
                 </ul>
             </div>
         </div>
     </div>
+    {% endfor %}
 </div>
 
 </br>

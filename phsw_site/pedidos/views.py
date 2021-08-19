@@ -6,8 +6,8 @@ from django.core.paginator import Paginator
 
 @login_required
 def fazer_pedido(request):
-    itens_queryset = facade.buscar_itens_por_categoria()
-    return render(request, 'pedidos/fazer_pedido.html', context={'itens': itens_queryset})
+    categoria_queryset = facade.buscar_itens_por_categoria()
+    return render(request, 'pedidos/fazer_pedido.html', context={'categorias': categoria_queryset})
 
 
 @login_required
@@ -21,9 +21,8 @@ def ver_pedidos(request):
 
 @login_required
 def ver_pedido(request):
-    if request.GET.get('id_pedido') is None:
-        raise Exception
     pedido = facade.buscar_pedido(request)
-    return render(request, 'pedidos/ver_pedido.html', context={'pedido': pedido})
+    geranum = facade.GeradorInt()
+    return render(request, 'pedidos/ver_pedido.html', context={'pedido': pedido, 'geranum': geranum})
 
 

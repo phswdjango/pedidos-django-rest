@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Q, Value, Prefetch
 from django.db.models.functions import Concat
 
+
 def buscar_pedidos(request):
     """
     Se houver um 'termo' no querydict do request vai fazer uma pesquisa pelo termo (try na linha 11).
@@ -39,4 +40,15 @@ def buscar_itens_por_categoria():
 
 
 def buscar_pedido(request):
-    return ItemPedido.objects.filter(fk_pedido_id=request.GET.get('id_pedido')).all()
+    return ItemPedido.objects.filter(fk_pedido_id=request.POST.get('id_pedido')).all()
+
+
+class GeradorInt:
+    def __init__(self):
+        self.num = 0
+
+    @property
+    def int(self):
+        self.num += 1
+        return self.num
+
