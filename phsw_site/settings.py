@@ -20,6 +20,8 @@ from decouple import config, Csv
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
+from django.contrib.messages import constants
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -217,3 +219,13 @@ if AWS_ACCESS_KEY_ID:  # pragma: no cover
     STATIC_ROOT = f'/{STATIC_S3_PATH}/'
     STATIC_URL = f'//{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/{STATIC_S3_PATH}/'
     ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'  # separar os arquivos staticos de admin
+
+
+# Mensagens (https://getbootstrap.com/docs/5.1/components/alerts/)
+MESSAGE_TAGS = {
+    constants.ERROR: 'alert-danger',
+    constants.WARNING: 'alert-warning',
+    constants.DEBUG: 'alert-info',
+    constants.SUCCESS: 'alert-success',
+    constants.INFO: 'alert-info'
+}

@@ -1,16 +1,19 @@
 from .models import Pedido, Item, CategoriaItem, ItemPedido
-from django.shortcuts import get_object_or_404
 from django.db.models import Q, Value, Prefetch
 from django.db.models.functions import Concat
+from django.contrib import messages
 
 
 def buscar_pedidos(request):
     """
-    Se houver um 'termo' no querydict do request vai fazer uma pesquisa pelo termo (try na linha 11).
+    Se houver um 'termo' no querydict do request vai fazer uma pesquisa pelo termo.
     Se não houver, vai buscar os pedidos do usuário ou os pedidos da empresa do usuario, caso este usuario seja
     'agente administrador'.
     """
-    if request.GET.get('termo') is not None and request.GET.get('termo') != '':
+    if request.GET.get('termo') == '':
+        messages.add_message(request, messages.ERROR, "O campo de pesquisa não pode ficar vazio.")
+
+    if request.GET.get('termo') is not None:
         termo = request.GET.get('termo')
         campos = Concat('fk_usuario__first_name', Value(' '), 'fk_usuario__last_name')  # precisa do value pra simuar o ' '
         print("termo recebido: ", termo)
@@ -43,12 +46,5 @@ def buscar_pedido(request):
     return ItemPedido.objects.filter(fk_pedido_id=request.POST.get('id_pedido')).all()
 
 
-class GeradorInt:
-    def __init__(self):
-        self.num = 0
 
-    @property
-    def int(self):
-        self.num += 1
-        return self.num
 

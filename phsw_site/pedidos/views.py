@@ -22,7 +22,5 @@ def ver_pedidos(request):
 @login_required
 def ver_pedido(request):
     pedido = facade.buscar_pedido(request)
-    geranum = facade.GeradorInt()
-    return render(request, 'pedidos/ver_pedido.html', context={'pedido': pedido, 'geranum': geranum})
-
+    return render(request, 'pedidos/ver_pedido.html', context={'pedido': pedido})
 
