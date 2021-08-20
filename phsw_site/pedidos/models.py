@@ -10,7 +10,7 @@ class Item(models.Model):
     unidade = models.CharField(max_length=10, verbose_name="Unidade")
     codigo_barras = models.CharField(max_length=13, verbose_name="Código de barras")
     ativado = models.BooleanField(verbose_name='Ativado')  # zero(desativado), Um(ativado)
-    imagem = models.ImageField(blank=True, upload_to='imagens/itens/')
+    imagem = models.ImageField(default="imagens/itens/defaultimage.jpeg", upload_to='imagens/itens/')
 
     def __str__(self):
         return f'Item: {self.verbose_name}'
