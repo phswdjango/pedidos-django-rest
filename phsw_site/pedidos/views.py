@@ -7,7 +7,12 @@ from django.core.paginator import Paginator
 @login_required
 def fazer_pedido(request):
     categoria_queryset = facade.buscar_itens_por_categoria()
-    return render(request, 'pedidos/fazer_pedido.html', context={'categorias': categoria_queryset})
+    if request.method != 'POST':
+        return render(request, 'pedidos/fazer_pedido.html', context={'categorias': categoria_queryset})
+
+    if request.method == 'POST':
+        facade.fazer_pedido(request)
+        return render(request, 'pedidos/fazer_pedido.html', context={'categorias': categoria_queryset})
 
 
 @login_required
