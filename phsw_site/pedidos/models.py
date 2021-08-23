@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-
+from django import forms
 
 class Item(models.Model):
     id_item = models.CharField(max_length=15, primary_key=True)
@@ -73,3 +73,8 @@ class CategoriaItem(models.Model):
     def __str__(self):
         return f'Categoria: {self.verbose_name}'
 
+
+class ItemForm(forms.ModelForm):
+    class Meta:
+        model = Item
+        exclude = ()

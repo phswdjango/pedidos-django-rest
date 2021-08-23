@@ -31,24 +31,28 @@
                     {% for item in categoria.itens %}
                     <tr>
                         <td><p><img src="{{ item.imagem.url }}" style="max-width: 150px; height: auto;"></p></td>
-                        <td><p style="margin: 20px 15px;">Nome: {{ item.verbose_name }}</p></td>
-                        <td><p style="margin: 20px 15px;">Valor: R$ X</p></td>
-                        <td><p style="margin: 20px 15px;">Descrição: {{ item.descricao }}</p></td>
-                        <td><p style="margin: 20px 15px;">Unidade: {{ item.unidade }}</p></td>
+                        <td><p style="margin: 20px 15px;">{{ item.verbose_name }}</p></td>
+                        <td><p style="margin: 20px 15px;">R$ X</p></td>
+                        <td><p style="margin: 20px 15px;">{{ item.descricao }}</p></td>
+                        <td><p style="margin: 20px 15px;">{{ item.unidade }}</p></td>
                     </tr>
                     {% endfor %}
 
                     </tbody>
 
                 </table>
-
             </div>
         </div>
     </div>
     {% endfor %}
-</div>
+    </br>
 
-</br>
+    <form action="{% url 'pedidos:editar_itens' %}" method="post" target="_blank" style="float: right;">
+        {% csrf_token %}
+        <button class="btn btn-primary" type="submit" value="#" name="itens_editados">Editar Itens</button>
+    </form>
+    </br>
+</div>
 
 
 

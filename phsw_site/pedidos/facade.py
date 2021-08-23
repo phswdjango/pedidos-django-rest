@@ -39,9 +39,19 @@ def buscar_itens_por_categoria():
         Prefetch('item_set', queryset=itens_ativados, to_attr='itens')).all()
 
 
+def buscar_todos_os_itens_por_categoria():
+    itens = Item.objects.all()
+    return CategoriaItem.objects.prefetch_related(
+        Prefetch('item_set', queryset=itens, to_attr='itens')).all()
+
+
 def buscar_pedido(request):
     return ItemPedido.objects.filter(fk_pedido_id=request.POST.get('id_pedido')).all()
 
 
 def fazer_pedido(request):
+    pass
+
+
+def editar_itens(request):
     pass

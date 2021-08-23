@@ -1,7 +1,10 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from . import facade
 from django.core.paginator import Paginator
+
+from .models import ItemForm
 
 
 @login_required
@@ -28,4 +31,15 @@ def ver_pedidos(request):
 def ver_pedido(request):
     pedido = facade.buscar_pedido(request)
     return render(request, 'pedidos/ver_pedido.html', context={'pedido': pedido})
+
+
+@login_required
+def editar_itens(request):
+    messages.error(request, "Erro ao enviar formulario.")
+    form = ItemForm()
+    if request.method is 'POST':
+        facade.editar_itens(request)
+    itens = facade.buscar_todos_os_itens_por_categoria()
+    return render(request, 'pedidos/editar_itens.html', context={'categorias': itens, 'form': form})
+
 
