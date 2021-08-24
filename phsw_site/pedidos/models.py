@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django import forms
 
+
 class Item(models.Model):
     id_item = models.CharField(max_length=15, primary_key=True)
     fk_categoria = models.ForeignKey('CategoriaItem', on_delete=models.CASCADE, verbose_name="Categoria")

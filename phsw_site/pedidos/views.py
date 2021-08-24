@@ -35,11 +35,21 @@ def ver_pedido(request):
 
 @login_required
 def editar_itens(request):
-    messages.error(request, "Erro ao enviar formulario.")
-    form = ItemForm()
-    if request.method is 'POST':
-        facade.editar_itens(request)
     itens = facade.buscar_todos_os_itens_por_categoria()
+    if request.method == 'POST':  # Adicionando item com ModelForms
+        form = ItemForm(request.POST, request.FILES)
+        if not form.is_valid():
+            form = ItemForm(request.POST)
+            messages.error(request, "Erro ao enviar formulario.")
+            return render(request, 'pedidos/editar_itens.html', context={'categorias': itens, 'form': form})
+        form.save()
+        messages.success(request, f'Item {request.POST.get("verbose_name")} criado com sucesso.')
+        imagem = request.POST.get('imagem')
+        nome = request.POST.get('nome')
+        descricao = request.POST.get('descricao')
+        unidade = request.POST.get('unidade')
+        # facade.editar_itens(request)  # Editando itens.
+    form = ItemForm()
     return render(request, 'pedidos/editar_itens.html', context={'categorias': itens, 'form': form})
 
 

@@ -2,7 +2,22 @@
 {% load static %}
 {% block title %}PHSW - Pedidos{% endblock title %}
 {% block body%}
-<h2 class="mt-5">Todos os itens</h2>
+<h2 class="mt-5">Adicionar um item</h2>
+<div class="container">
+    <form action="{% url 'pedidos:editar_itens'%}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table class="table">
+            {% include 'partials/_messages.html'%}
+            {{ form }}
+            <tr>
+                <td colspan="2">
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<h2 class="mt-5">Editar os itens</h2>
 </br>
 <div class="accordion" id="accordionPanelsStayOpenExample">
     {% for categoria in categorias %}
