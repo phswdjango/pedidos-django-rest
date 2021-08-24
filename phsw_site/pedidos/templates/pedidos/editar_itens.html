@@ -1,0 +1,83 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}PHSW - Pedidos{% endblock title %}
+{% block body%}
+<h2 class="mt-5">Adicionar um item</h2>
+<div class="container">
+    <form action="{% url 'pedidos:editar_itens'%}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for hidden_field in form.hidden_fields %}
+        {{ hidden_field }}
+        {% endfor %}
+
+        {% for visible_field in form.visible_fields %}
+        <p>
+
+            {{ visible_field.label_tag }} <br>
+            {{ visible_field }}
+            {{ visible_field.errors }}
+        </p>
+
+        {% endfor %}
+
+
+        {% include 'partials/_messages.html'%}
+        <br>
+         <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+</div>
+<h2 class="mt-5">Editar os itens</h2>
+</br>
+<div class="accordion" id="accordionPanelsStayOpenExample">
+    {% for categoria in categorias %}
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="panelsStayOpen-heading-{{ categoria.id_categoria }}">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse-{{ categoria.id_categoria }}"
+                    aria-expanded="false"
+                    aria-controls="panelsStayOpen-collapse-{{ categoria.id_categoria }}">
+                {{ categoria.verbose_name }}
+            </button>
+        </h2>
+        <div id="panelsStayOpen-collapse-{{ categoria.id_categoria }}" class="accordion-collapse collapse"
+             aria-labelledby="panelsStayOpen-heading-{{ categoria.id_categoria }}">
+            <div class="accordion-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Imagem</th>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Valor</th>
+                            <th scope="col">Descrição</th>
+                            <th scope="col">Unidade</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in categoria.itens %}
+                        <tr>
+                            <th scope="row"><p><img src="{{ item.imagem.url }}" style="max-width: 150px; height: auto;"></p></th>
+                            <td><p style="margin: 20px 15px;">{{ item.verbose_name }}</p></td>
+                            <td><p style="margin: 20px 15px;">R$ X</p></td>
+                            <td><p style="margin: 20px 15px;">{{ item.descricao }}</p></td>
+                            <td><p style="margin: 20px 15px;">{{ item.unidade }}</p></td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    </br>
+
+    <form action="{% url 'pedidos:editar_itens' %}" method="post" target="_blank" style="float: right;">
+        {% csrf_token %}
+        <button class="btn btn-primary" type="submit" value="#" name="itens_editados">Editar Itens</button>
+    </form>
+    </br>
+</div>
+
+
+{% endblock body %}

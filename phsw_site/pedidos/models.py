@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django import forms
 
 
 class Item(models.Model):
@@ -10,10 +11,13 @@ class Item(models.Model):
     unidade = models.CharField(max_length=10, verbose_name="Unidade")
     codigo_barras = models.CharField(max_length=13, verbose_name="Código de barras")
     ativado = models.BooleanField(verbose_name='Ativado')  # zero(desativado), Um(ativado)
-    # imagem = models.ImageField
+    imagem = models.ImageField(default="imagens/itens/defaultimage.jpeg", upload_to='imagens/itens/')
 
     def __str__(self):
         return f'Item: {self.verbose_name}'
+
+    class Meta:
+        verbose_name_plural = 'Itens'
 
 
 class ItemPreco(models.Model):  # tabela intermediária
@@ -70,3 +74,8 @@ class CategoriaItem(models.Model):
     def __str__(self):
         return f'Categoria: {self.verbose_name}'
 
+
+class ItemForm(forms.ModelForm):
+    class Meta:
+        model = Item
+        exclude = ()

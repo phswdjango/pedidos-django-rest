@@ -10,6 +10,8 @@ class ItemAdmin(admin.ModelAdmin):
     # prepopulated_fields = {'slug': ('title',)}
     search_fields = ('verbose_name', 'ativado')
     ordering = ('fk_categoria', 'verbose_name')
+    list_editable = ('ativado', 'verbose_name')  # editavel ao acessar a pagina ItemAdmin
+    list_display_links = ('id_item', 'unidade')  # link para acessar o registro.
 
 
 @admin.register(ItemPreco)

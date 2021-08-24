@@ -1,18 +1,19 @@
-from .models import Pedido, Item, CategoriaItem
-# from django.shortcuts import get_object_or_404
+from .models import Pedido, Item, CategoriaItem, ItemPedido
 from django.db.models import Q, Value, Prefetch
 from django.db.models.functions import Concat
+from django.contrib import messages
+
 
 def buscar_pedidos(request):
     """
-    Se houver um 'termo' no querydict do request vai fazer uma pesquisa pelo termo (try na linha 11).
+    Se houver um 'termo' no querydict do request vai fazer uma pesquisa pelo termo.
     Se não houver, vai buscar os pedidos do usuário ou os pedidos da empresa do usuario, caso este usuario seja
     'agente administrador'.
     """
+
     if request.GET.get('termo') is not None and request.GET.get('termo') != '':
         termo = request.GET.get('termo')
         campos = Concat('fk_usuario__first_name', Value(' '), 'fk_usuario__last_name')  # precisa do value pra simuar o ' '
-        print("termo recebido: ", termo)
         if request.user.is_agente_admin:
             return Pedido.objects.annotate(nome_completo=campos).order_by('-data_pedido').filter(
                 Q(fk_status__verbose_name__icontains=termo) | Q(fk_empresa__nome_empresa__icontains=termo) |
@@ -38,7 +39,19 @@ def buscar_itens_por_categoria():
         Prefetch('item_set', queryset=itens_ativados, to_attr='itens')).all()
 
 
-    # def trazer_modulos_com_aulas():  # prefetch_related serve pra evitar o N+1 em busca do lado 'N' pro lado '1'
-    #     aulas_ordenadas = Aula.objects.order_by('order')
-    #     return Modulo.objects.order_by('order').prefetch_related(
-    #         Prefetch('aula_set', queryset=aulas_ordenadas, to_attr='aulas')).all()
+def buscar_todos_os_itens_por_categoria():
+    itens = Item.objects.all()
+    return CategoriaItem.objects.prefetch_related(
+        Prefetch('item_set', queryset=itens, to_attr='itens')).all()
+
+
+def buscar_pedido(request):
+    return ItemPedido.objects.filter(fk_pedido_id=request.POST.get('id_pedido')).all()
+
+
+def fazer_pedido(request):
+    pass
+
+
+def editar_itens(request):
+    pass
