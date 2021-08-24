@@ -6,15 +6,24 @@
 <div class="container">
     <form action="{% url 'pedidos:editar_itens'%}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <table class="table">
-            {% include 'partials/_messages.html'%}
-            {{ form }}
-            <tr>
-                <td colspan="2">
-                    <button type="submit" class="btn btn-primary">Enviar</button>
-                </td>
-            </tr>
-        </table>
+        {% for hidden_field in form.hidden_fields %}
+        {{ hidden_field }}
+        {% endfor %}
+
+        {% for visible_field in form.visible_fields %}
+        <p>
+
+            {{ visible_field.label_tag }} <br>
+            {{ visible_field }}
+            {{ visible_field.errors }}
+        </p>
+
+        {% endfor %}
+
+
+        {% include 'partials/_messages.html'%}
+        <br>
+         <button type="submit" class="btn btn-primary">Enviar</button>
     </form>
 </div>
 <h2 class="mt-5">Editar os itens</h2>
@@ -32,30 +41,31 @@
         <div id="panelsStayOpen-collapse-{{ categoria.id_categoria }}" class="accordion-collapse collapse"
              aria-labelledby="panelsStayOpen-heading-{{ categoria.id_categoria }}">
             <div class="accordion-body">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Imagem</th>
-                        <th>Nome</th>
-                        <th>Valor</th>
-                        <th>Descrição</th>
-                        <th>Unidade</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for item in categoria.itens %}
-                    <tr>
-                        <td><p><img src="{{ item.imagem.url }}" style="max-width: 150px; height: auto;"></p></td>
-                        <td><p style="margin: 20px 15px;">{{ item.verbose_name }}</p></td>
-                        <td><p style="margin: 20px 15px;">R$ X</p></td>
-                        <td><p style="margin: 20px 15px;">{{ item.descricao }}</p></td>
-                        <td><p style="margin: 20px 15px;">{{ item.unidade }}</p></td>
-                    </tr>
-                    {% endfor %}
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Imagem</th>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Valor</th>
+                            <th scope="col">Descrição</th>
+                            <th scope="col">Unidade</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in categoria.itens %}
+                        <tr>
+                            <th scope="row"><p><img src="{{ item.imagem.url }}" style="max-width: 150px; height: auto;"></p></th>
+                            <td><p style="margin: 20px 15px;">{{ item.verbose_name }}</p></td>
+                            <td><p style="margin: 20px 15px;">R$ X</p></td>
+                            <td><p style="margin: 20px 15px;">{{ item.descricao }}</p></td>
+                            <td><p style="margin: 20px 15px;">{{ item.unidade }}</p></td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
 
-                    </tbody>
-
-                </table>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -68,7 +78,6 @@
     </form>
     </br>
 </div>
-
 
 
 {% endblock body %}

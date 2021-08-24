@@ -17,20 +17,21 @@
         <div id="panelsStayOpen-collapse-{{ categoria.id_categoria }}" class="accordion-collapse collapse"
              aria-labelledby="panelsStayOpen-heading-{{ categoria.id_categoria }}">
             <div class="accordion-body">
+                <div class="table-responsive">
                 <table class="table">
                     <thead>
                     <tr>
-                        <th>Imagem</th>
-                        <th>Nome</th>
-                        <th>Valor</th>
-                        <th>Descrição</th>
-                        <th>Unidade</th>
+                        <th scope="col">Imagem</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Valor</th>
+                        <th scope="col">Descrição</th>
+                        <th scope="col">Unidade</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for item in categoria.itens %}
                     <tr>
-                        <td><p><img src="{{ item.imagem.url }}" style="max-width: 150px; height: auto;"></p></td>
+                        <th scope="row"><p><img src="{{ item.imagem.url }}" style="max-width: 150px; height: auto;"></p></th>
                         <td><p style="margin: 20px 15px;">Nome: {{ item.verbose_name }}</p></td>
                         <td><p style="margin: 20px 15px;">Valor: R$ X</p></td>
                         <td><p style="margin: 20px 15px;">Descrição: {{ item.descricao }}</p></td>
@@ -41,6 +42,7 @@
                     </tbody>
 
                 </table>
+                    </div>
 
             </div>
         </div>

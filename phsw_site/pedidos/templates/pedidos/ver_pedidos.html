@@ -7,84 +7,85 @@
 <br><br>
 <h4>Pesquise um status</h4>
 <form method="get" action="{% url 'pedidos:ver_pedidos' %}">
-  <div class="form-group row">
-    <div class="col-12">
-      <input class="form-control"
-             type="search" value="{{ request.GET.termo }}"
-             id="search-input"
-             placeholder="Digite sua pesquisa"
-             name="termo">
+    <div class="form-group row">
+        <div class="col-12">
+            <input class="form-control"
+                   type="search" value="{{ request.GET.termo }}"
+                   id="search-input"
+                   placeholder="Digite sua pesquisa"
+                   name="termo">
+        </div>
     </div>
-  </div>
 </form>
 <br>
-
-<table class="table">
-    <thead>
-    <tr>
-        <th>Código do Pedido</th>
-        <th>Usuario</th>
-        <th>Empresa</th>
-        <th>Status</th>
-        <th>Valor Total</th>
-        <th>Data do pedido</th>
-        <th>Ver pedido</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for pedido in pedidos %}
-    <tr>
-        <td>{{pedido.id}}</td>
-        {% if user.is_agente_admin %}
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Código do Pedido</th>
+            <th scope="col">Usuario</th>
+            <th scope="col">Empresa</th>
+            <th scope="col">Status</th>
+            <th scope="col">Valor Total</th>
+            <th scope="col">Data do pedido</th>
+            <th scope="col">Ver pedido</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for pedido in pedidos %}
+        <tr>
+            <th scope="row">{{pedido.id}}</th>
+            {% if user.is_agente_admin %}
             <td>{{pedido.fk_usuario.first_name}} {{pedido.fk_usuario.last_name}}</td>
-        {% else %}
+            {% else %}
             <td>{{user.first_name}} {{user.last_name}}</td>
-        {% endif %}
-        <td>{{pedido.fk_empresa.nome_empresa}}</td>
-        {% if pedido.fk_status.verbose_name == "Faturado" %}
+            {% endif %}
+            <td>{{pedido.fk_empresa.nome_empresa}}</td>
+            {% if pedido.fk_status.verbose_name == "Faturado" %}
             <td style="color:green; font-weight: bold;">{{pedido.fk_status.verbose_name}}</td>
-        {% elif pedido.fk_status.verbose_name == "Cancelado" %}
+            {% elif pedido.fk_status.verbose_name == "Cancelado" %}
             <td style="color:red; font-weight: bold;">{{pedido.fk_status.verbose_name}}</td>
-        {% elif pedido.fk_status.verbose_name == "Entregue" %}
+            {% elif pedido.fk_status.verbose_name == "Entregue" %}
             <td style="color:darkgreen; font-weight: bold;">{{pedido.fk_status.verbose_name}}</td>
-        {% elif pedido.fk_status.verbose_name == "Registrado" %}
+            {% elif pedido.fk_status.verbose_name == "Registrado" %}
             <td style="color:black; font-weight: bold;">{{pedido.fk_status.verbose_name}}</td>
-        {% elif pedido.fk_status.verbose_name == "Transferido" %}
+            {% elif pedido.fk_status.verbose_name == "Transferido" %}
             <td style="color:blue; font-weight: bold;">{{pedido.fk_status.verbose_name}}</td>
-        {% elif pedido.fk_status.verbose_name == "Digitação" %}
+            {% elif pedido.fk_status.verbose_name == "Digitação" %}
             <td style="color:black; font-weight: bold;">{{pedido.fk_status.verbose_name}}</td>
-        {% else %}
-        <td style="font-weight: bold;">{{pedido.fk_status.verbose_name}}</td>
-        {% endif %}
-        <td>R$ {{pedido.valor_total}}</td>
-        <td>{{pedido.data_pedido}}</td>
-        <td>
-            <form action="{% url 'pedidos:ver_pedido' %}" method="post" target="_blank" >
-                {% csrf_token %}
-                <button class="btn btn-primary" type="submit" value="{{ pedido.id }}" name="id_pedido">Ver pedido</button>
-            </form>
-        </td>
-    </tr>
-    {% endfor %}
+            {% else %}
+            <td style="font-weight: bold;">{{pedido.fk_status.verbose_name}}</td>
+            {% endif %}
+            <td>R$ {{pedido.valor_total}}</td>
+            <td>{{pedido.data_pedido}}</td>
+            <td>
+                <form action="{% url 'pedidos:ver_pedido' %}" method="post" target="_blank">
+                    {% csrf_token %}
+                    <button class="btn btn-primary" type="submit" value="{{ pedido.id }}" name="id_pedido">Ver pedido</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
 
-    </tbody>
+        </tbody>
 
-</table>
+    </table>
+</div>
 
 <nav aria-label="Page navigation example">
-  <ul class="pagination">
-      {% for pagina in pedidos.paginator.page_range %}
-      {% if pedidos.number == pagina %}
-    <li class="page-item active">
-        <a class="page-link" href="?page={{ pagina }}&termo={{ request.GET.termo }}">{{pagina}}</a>
-    </li>
-      {% else %}
-      <li class="page-item">
-        <a class="page-link" href="?page={{ pagina }}&termo={{ request.GET.termo }}">{{pagina}}</a>
-      </li>
-      {% endif %}
+    <ul class="pagination">
+        {% for pagina in pedidos.paginator.page_range %}
+        {% if pedidos.number == pagina %}
+        <li class="page-item active">
+            <a class="page-link" href="?page={{ pagina }}&termo={{ request.GET.termo }}">{{pagina}}</a>
+        </li>
+        {% else %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ pagina }}&termo={{ request.GET.termo }}">{{pagina}}</a>
+        </li>
+        {% endif %}
 
-      {% endfor %}
-  </ul>
+        {% endfor %}
+    </ul>
 </nav>
 {% endblock body%}

@@ -5,19 +5,20 @@
 
 {% if pedido %}
 <h1>Itens do pedido</h1>
+<div class="table-responsive">
 <table class="table">
     <thead>
     <tr>
-        <th>Id pedido</th>
-        <th>Item</th>
-        <th>Qtd</th>
-        <th>Preço Unitario</th>
+        <th scope="col">Id pedido</th>
+        <th scope="col">Item</th>
+        <th scope="col">Qtd</th>
+        <th scope="col">Preço Unitario</th>
     </tr>
     </thead>
     <tbody>
     {% for item in pedido %}
     <tr>
-        <td><p style="margin: 20px 15px;">{{ item.fk_pedido_id }}</p></td>
+        <th scope="row"><p style="margin: 20px 15px;">{{ item.fk_pedido_id }}</p></th>
         <td><p style="margin: 20px 15px;">{{ item.fk_item }}</p></td>
         <td><p style="margin: 20px 15px;">{{ item.quantidade }}</p></td>
         <td><p style="margin: 20px 15px;">{{ item.preco_unit }}</p></td>
@@ -26,7 +27,7 @@
     {% endfor %}
     </tbody>
 </table>
-
+</div>
 {% else %}
 <p>Pedido vazio</p>
 {% endif %}
