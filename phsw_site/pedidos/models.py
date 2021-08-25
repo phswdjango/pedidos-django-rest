@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-from django import forms
+from .utils import image_resize
 
 
 class Item(models.Model):
@@ -18,6 +18,11 @@ class Item(models.Model):
 
     class Meta:
         verbose_name_plural = 'Itens'
+
+    def save(self, *args, **kwargs):
+        if self.imagem:
+            image_resize(self.imagem, 276, 183)
+        super().save(*args, **kwargs)
 
 
 class ItemPreco(models.Model):  # tabela intermediária
@@ -73,9 +78,3 @@ class CategoriaItem(models.Model):
 
     def __str__(self):
         return f'Categoria: {self.verbose_name}'
-
-
-class ItemForm(forms.ModelForm):
-    class Meta:
-        model = Item
-        exclude = ()
