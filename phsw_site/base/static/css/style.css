@@ -30,3 +30,11 @@ padding-top: 200px;
     background-color: rgb(43, 120, 169);
     color: #ffffff;
 }
+
+.navbar-expand-lg .navbar-nav {
+    margin-right: 40px !important;
+}
+
+.dropdown-menu {
+    min-width: 6rem;
+    }
