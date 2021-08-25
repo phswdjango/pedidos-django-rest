@@ -4,7 +4,7 @@ from django.shortcuts import render
 from . import facade
 from django.core.paginator import Paginator
 
-from .models import ItemForm
+from .forms import ItemForm
 
 
 @login_required
