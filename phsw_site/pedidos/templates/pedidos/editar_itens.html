@@ -2,32 +2,15 @@
 {% load static %}
 {% block title %}PHSW - Pedidos{% endblock title %}
 {% block body%}
-<h2 class="mt-5">Adicionar um item</h2>
-<div class="container">
+
+<h1 class="mt-5">Editar itens</h1>
+</br>
+
+<div class="accordion" id="accordionPanelsStayOpenExample">
+    {% include 'partials/_messages.html'%}
     <form action="{% url 'pedidos:editar_itens'%}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {% include 'partials/_messages.html'%}
-        {% for hidden_field in form.hidden_fields %}
-        {{ hidden_field }}
-        {% endfor %}
-
-        {% for visible_field in form.visible_fields %}
-        <p>
-
-            {{ visible_field.label_tag }} <br>
-            {{ visible_field }}
-            {{ visible_field.errors }}
-        </p>
-
-        {% endfor %}
-        <br>
-         <button type="submit" class="btn btn-primary">Enviar</button>
-    </form>
-</div>
-<h2 class="mt-5">Editar os itens</h2>
-</br>
-<div class="accordion" id="accordionPanelsStayOpenExample">
-    {% for categoria in categorias %}
+        {% for categoria in categorias %}
     <div class="accordion-item">
         <h2 class="accordion-header" id="panelsStayOpen-heading-{{ categoria.id_categoria }}">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse-{{ categoria.id_categoria }}"
@@ -44,22 +27,30 @@
                         <thead>
                         <tr>
                             <th scope="col">Imagem</th>
+                            <th scope="col">Código</th>
                             <th scope="col">Nome</th>
                             <th scope="col">Valor</th>
                             <th scope="col">Descrição</th>
                             <th scope="col">Unidade</th>
+                            <th scope="col">Categoria</th>
+                            <th scope="col">Código de barras</th>
+                            <th scope="col">Ativado</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {% for item in categoria.itens %}
-                        <tr>
-                            <th scope="row"><p><img src="{{ item.imagem.url }}" style="max-width: 150px; height: auto;"></p></th>
-                            <td><p style="margin: 20px 15px;">{{ item.verbose_name }}</p></td>
-                            <td><p style="margin: 20px 15px;">R$ X</p></td>
-                            <td><p style="margin: 20px 15px;">{{ item.descricao }}</p></td>
-                            <td><p style="margin: 20px 15px;">{{ item.unidade }}</p></td>
-                        </tr>
-                        {% endfor %}
+                            {% for item in categoria.itens %}
+                            <tr>
+                                <td><p><img src="{{ item.imagem.url }}" style="max-width: 115px; height: auto;"></p><br><input type="file" name="item-image-{{ item.id_item }}" id="item-image-{{ item.id_item }}" accept="image/*"></td>
+                                <td><p style="margin: 20px 15px;">{{ item.id_item }}</p></td>
+                                <td><p style="margin: 20px 15px;"><input type="text" name="item-nome-{{ item.id_item }}" maxlength="50" required id="item-nome-{{ item.id_item }}" value="{{ item.verbose_name }}"></p></td>
+                                <td><p style="margin: 20px 15px;">R$ X</p></td>
+                                <td><p style="margin: 20px 15px;"><textarea name="item-descricao-{{ item.id_item }}" cols="40" rows="2" required id="item-descricao-{{ item.id_item }}">{{ item.descricao }}</textarea></p></td>
+                                <td><p style="margin: 20px 15px;"><input type="text" name="item-unidade-{{ item.id_item }}" maxlength="10" required id="item-unidade-{{ item.id_item }}" value="{{ item.unidade }}"></p></td>
+                                <td><p style="margin: 20px 15px;"><select name="item-categoria-{{ item.id_item }}" required id="item-categoria-{{ item.id_item }}">{% for categoria in categorias %}<option value="{{categoria.id_categoria}}" {% if categoria.id_categoria == item.fk_categoria_id %} selected {% endif %}>{{categoria}}</option>{% endfor %}</select> </p></td>
+                                <td><p style="margin: 20px 15px;"><input type="text" name="item-codigo_barras-{{ item.id_item }}" maxlength="13" required id="item-codigo_barras-{{ item.id_item }}" value="{{ item.codigo_barras }}"> </p></td>
+                                <td><p style="margin: 20px 15px;"><input type="checkbox" name="item-ativado-{{ item.id_item }}" id="item-ativado-{{ item.id_item }}" {% if item.ativado %}checked{% endif %}> </p></td>
+                            </tr>
+                            {% endfor %}
                         </tbody>
 
                     </table>
@@ -69,12 +60,17 @@
     </div>
     {% endfor %}
     </br>
-
-    <form action="{% url 'pedidos:editar_itens' %}" method="post" target="_blank" style="float: right;">
-        {% csrf_token %}
         <button class="btn btn-primary" type="submit" value="#" name="itens_editados">Editar Itens</button>
     </form>
     </br>
+</div>
+
+<div>
+    <p>
+        {% if request.POST %}
+            {{ request.POST }}
+        {% endif %}
+    </p>
 </div>
 
 

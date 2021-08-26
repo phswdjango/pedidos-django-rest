@@ -42,15 +42,56 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'pedidos:ver_pedidos' %}">Ver Pedidos</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="pedido" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Pedidos
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="pedido">
+                            <li><a class="dropdown-item" href="{% url 'pedidos:fazer_pedido' %}">Fazer pedido</a></li>
+                            <li><a class="dropdown-item" href="{% url 'pedidos:ver_pedidos' %}">Ver Pedidos</a></li>
+                        </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'pedidos:fazer_pedido' %}">Fazer pedido</a>
+                    {% if user.is_agente_admin %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="itens" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Itens
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="itens">
+                            <li><a class="dropdown-item" href="{% url 'pedidos:criar_item' %}">Criar Item</a></li>
+                            <li><a class="dropdown-item" href="{% url 'pedidos:editar_itens' %}">Editar Itens</a></li>
+                            <li><a class="dropdown-item" href="{% url 'pedidos:criar_categoria' %}">Criar categoria</a></li>
+                            <li><a class="dropdown-item" href="{% url 'pedidos:editar_categoria' %}">Editar categoria</a></li>
+                        </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'pedidos:editar_itens' %}">Editar itens</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="tabelapreco" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Tabela de Preço
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="tabelapreco">
+                            <li><a class="dropdown-item" href="{% url 'pedidos:criar_tabela_preco' %}">Criar Tabela de Preço</a></li>
+                            <li><a class="dropdown-item" href="{% url 'pedidos:editar_tabelas_preco' %}">Editar Tabelas de Preço</a></li>
+                        </ul>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="usuarios" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Usuários
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="usuarios">
+                            <li><a class="dropdown-item" href="{% url 'base:criar_usuario' %}">Criar Usuário</a></li>
+                            <li><a class="dropdown-item" href="{% url 'base:editar_usuario' %}">Editar Usuário</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="empresa" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Empresa
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="empresa">
+                            <li><a class="dropdown-item" href="{% url 'base:criar_empresa' %}">Criar Empresa</a></li>
+                            <li><a class="dropdown-item" href="{% url 'base:editar_empresa' %}">Editar Empresa</a></li>
+                        </ul>
+                    </li>
+
+                    {% endif %}
                 </ul>
             </div>
 

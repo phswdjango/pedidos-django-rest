@@ -246,3 +246,6 @@ MESSAGE_TAGS = {
 AXES_FAILURE_LIMIT = 5
 AXES_COOLOFF_TIME = datetime.timedelta(seconds=5)
 AXES_ONLY_USER_FAILURES = True
+
+# Sessão em dias: 60s * 60m * 24h * 7d
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 7

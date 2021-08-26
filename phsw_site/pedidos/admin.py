@@ -25,16 +25,18 @@ class TabelaPrecoAdmin(admin.ModelAdmin):
     ordering = ('verbose_name',)
 
 
+class ItemPedidoInline(admin.TabularInline):
+    model = ItemPedido
+
+
 @admin.register(Pedido)
 class PedidoAdmin(admin.ModelAdmin):
-    list_display = ('fk_empresa', 'fk_usuario', 'fk_status', 'data_pedido', 'data_faturamento', 'valor_total')
+    list_display = ('pk', 'fk_empresa', 'fk_usuario', 'fk_status', 'data_pedido', 'data_faturamento', 'valor_total')
     list_filter = ('fk_empresa', 'fk_usuario', 'data_pedido', 'fk_status')
     ordering = ('data_pedido',)
-
-
-@admin.register(ItemPedido)
-class ItemPedidoAdmin(admin.ModelAdmin):
-    list_display = ('fk_pedido', 'fk_item', 'quantidade', 'preco_unit')
+    inlines = [
+        ItemPedidoInline
+    ]
 
 
 @admin.register(CategoriaItem)
