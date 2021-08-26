@@ -22,6 +22,7 @@
                     <thead>
                     <tr>
                         <th scope="col">Imagem</th>
+                        <th scope="col">Código</th>
                         <th scope="col">Nome</th>
                         <th scope="col">Valor</th>
                         <th scope="col">Descrição</th>
@@ -31,7 +32,8 @@
                     <tbody>
                     {% for item in categoria.itens %}
                     <tr>
-                        <th scope="row"><p><img src="{{ item.imagem.url }}" style="max-width: 150px; height: auto;"></p></th>
+                        <th scope="row"><p><img src="{{ item.imagem.url }}" style="max-width: 115px; height: auto;"></p></th>
+                        <td><p style="margin: 20px 15px;">{{ item.id_item }}</p></td>
                         <td><p style="margin: 20px 15px;">Nome: {{ item.verbose_name }}</p></td>
                         <td><p style="margin: 20px 15px;">Valor: R$ X</p></td>
                         <td><p style="margin: 20px 15px;">Descrição: {{ item.descricao }}</p></td>

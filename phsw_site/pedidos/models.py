@@ -21,7 +21,7 @@ class Item(models.Model):
 
     def save(self, *args, **kwargs):
         if self.imagem:
-            image_resize(self.imagem, 276, 183)
+            image_resize(self.imagem, 115, 76.24)
         super().save(*args, **kwargs)
 
 
@@ -52,6 +52,9 @@ class Pedido(models.Model):
     data_faturamento = models.DateTimeField(blank=True, null=True, verbose_name="Data do faturamento")
     valor_total = models.DecimalField(max_digits=11, decimal_places=2, verbose_name="Valor total")
 
+    def __str__(self):
+        return f'Pedido N. {self.pk}'
+
 
 class StatusPedido(models.Model):
     descricao = models.TextField(default="sem descrição", verbose_name="Descrição")
@@ -64,6 +67,8 @@ class StatusPedido(models.Model):
 class ItemPedido(models.Model):
     class Meta:
         unique_together = (('fk_pedido', 'fk_item'),)
+        verbose_name = 'Item do pedido'
+        verbose_name_plural = 'Itens do pedido'
 
     fk_pedido = models.ForeignKey('Pedido', on_delete=models.CASCADE, verbose_name="Pedido")
     fk_item = models.ForeignKey('Item', on_delete=models.DO_NOTHING, verbose_name="Item")
