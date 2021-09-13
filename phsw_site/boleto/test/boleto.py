@@ -3,6 +3,7 @@ import os
 import pdfkit as pdf
 from barcode import ITF
 from barcode.writer import SVGWriter
+from create_barcode import create_barcode
 
 options = {
     'enable-local-file-access': None,
@@ -30,12 +31,12 @@ def gerar_boleto(modelo, outputpath, campos):
 
     if campos['codigo_barras']:
         codigo_barra_svg = ITF(campos['codigo_barras'], writer=SVGWriter())
-        codigo_barra = codigo_barra_svg
-        campos['codigo_barras'] = f'{codigo_barra}'
-
-        # create_barcode(campos['codigo_barras'])
-        # campos['codigo_barras'] = 'file://' + os.path.join(
-            # os.path.dirname(__file__)) + '/barcode.svg'
+        codigo_barra = codigo_barra_svg.render(writer_options=None, text='')
+        codigo_barra = str(codigo_barra)
+        codigo_barra = codigo_barra.replace("b'", "").replace(r"\n", "").removesuffix("'")
+        campos['barcode_svg'] = f'{codigo_barra}'
+    else:
+        raise Exception(f'Nenhum codigo de barras foi informado.')
 
     if modelo == '1':
         template = env.get_template(modelos['1'])
