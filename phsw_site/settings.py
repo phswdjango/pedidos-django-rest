@@ -53,6 +53,7 @@ AUTH_USER_MODEL = 'base.User'
 INSTALLED_APPS = [
     'phsw_site.base',
     'phsw_site.pedidos',
+    'phsw_site.boleto',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -65,6 +66,7 @@ INSTALLED_APPS = [
     'anymail',
     'django_cpf_cnpj',
     'axes',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -103,6 +105,14 @@ AUTHENTICATION_BACKENDS = [
     # Django ModelBackend is the default authentication backend.
     'django.contrib.auth.backends.ModelBackend',
 ]
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
 
 WSGI_APPLICATION = 'phsw_site.wsgi.application'
 

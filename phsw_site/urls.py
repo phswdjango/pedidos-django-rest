@@ -22,7 +22,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('phsw_site.base.urls')),
     path('usuario/', include('django.contrib.auth.urls')),
-    path('pedidos/', include('phsw_site.pedidos.urls'))
+    path('pedidos/', include('phsw_site.pedidos.urls')),
+    path('api-auth/', include('rest_framework.urls'))
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

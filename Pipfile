@@ -23,6 +23,7 @@ django-axes = "*"
 python-barcode = "*"
 pdfkit = "*"
 jinja2 = "*"
+djangorestframework = "*"
 
 [dev-packages]
 pytest = "*"
