@@ -85,6 +85,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     cpf = CPFField(masked=True, blank=True, verbose_name="CPF")
     fk_empresa = models.ForeignKey('Empresa', blank=True, on_delete=models.PROTECT, null=True, verbose_name="Empresa")
     is_agente_admin = models.BooleanField(default=False)
+    all_api_permissions = models.BooleanField(default=False)
 
     is_staff = models.BooleanField(  # essa propriedade define os usuarios que podem acessar o admin do django
         _('staff status'),

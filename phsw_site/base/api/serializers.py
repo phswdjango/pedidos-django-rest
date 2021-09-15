@@ -1,3 +1,4 @@
+from django.utils.timezone import now
 from rest_framework import serializers
 from phsw_site.base.models import User
 
@@ -25,7 +26,23 @@ class RegistrationSerializer(serializers.ModelSerializer):
         password2 = self.validated_data['password2']
 
         if password != password2:
-            raise serializers.ValidationError({'password':'Passwords must match.'})
+            raise serializers.ValidationError({'password': 'Passwords must match.'})
         user.set_password(password)
         user.save()
         return user
+
+
+class UserSerializer(serializers.ModelSerializer):
+    days_since_joined = serializers.SerializerMethodField()
+    empresa = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email', 'cpf', 'is_agente_admin', 'empresa',
+                  'days_since_joined']
+
+    def get_days_since_joined(self, obj):
+        return (now() - obj.date_joined).days
+
+    def get_empresa(self, obj):
+        return str(obj.fk_empresa)

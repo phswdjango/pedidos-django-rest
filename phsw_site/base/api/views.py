@@ -1,14 +1,16 @@
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from phsw_site.base.api.serializers import RegistrationSerializer
+from rest_framework.decorators import api_view, permission_classes
+from phsw_site.base.api.serializers import RegistrationSerializer, UserSerializer
 from rest_framework.authtoken.models import Token
+from phsw_site.base.models import User
 
 
-@api_view(['POST',])
+@api_view(['POST', ])
+@permission_classes([IsAuthenticated])
 def registration_view(request):
-
-    if request.method == 'POST':
+    if request.user.all_api_permissions:
         serializer = RegistrationSerializer(data=request.data)
         data = {}
         if serializer.is_valid():
@@ -25,3 +27,19 @@ def registration_view(request):
         else:
             data = serializer.errors
         return Response(data)
+    return Response({'response': 'Nao possui permissoes para acessar esse recurso.'},
+                    status=status.HTTP_401_UNAUTHORIZED)
+
+
+@api_view(['GET', ])
+@permission_classes([IsAuthenticated])
+def check_user_view(request, slug):
+    if request.user.all_api_permissions:
+        try:
+            user = User.objects.get(id=slug)
+        except User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
+    return Response({'response': 'Nao possui permissoes para acessar esse recurso.'},
+                    status=status.HTTP_401_UNAUTHORIZED)
