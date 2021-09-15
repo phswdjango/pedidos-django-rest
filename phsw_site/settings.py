@@ -26,7 +26,6 @@ import datetime
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -43,7 +42,6 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 LOGIN_REDIRECT_URL = '/pedidos/'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = '/usuario/login/'
-
 
 # Auth User model
 AUTH_USER_MODEL = 'base.User'
@@ -67,6 +65,7 @@ INSTALLED_APPS = [
     'django_cpf_cnpj',
     'axes',
     'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -109,8 +108,11 @@ AUTHENTICATION_BACKENDS = [
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    # ]
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
     ]
 }
 
@@ -124,7 +126,6 @@ SERVER_EMAIL = config('SERVER_EMAIL')
 ANYMAIL = {'MAILGUN_API_KEY': config('MAILGUN_API_KEY'),
            'MAILGUN_SENDER_DOMAIN': config('MAILGUN_SENDER_DOMAIN'),
            }
-
 
 # Django Debug Toolbar
 INTERNAL_IPS = config('INTERNAL_IPS', cast=Csv(), default='127.0.0.1')
@@ -178,7 +179,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -191,7 +191,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
@@ -241,7 +240,6 @@ if AWS_ACCESS_KEY_ID:  # pragma: no cover
     STATIC_ROOT = f'/{STATIC_S3_PATH}/'
     STATIC_URL = f'//{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/{STATIC_S3_PATH}/'
     ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'  # separar os arquivos staticos de admin
-
 
 # Mensagens (https://getbootstrap.com/docs/5.1/components/alerts/)
 MESSAGE_TAGS = {

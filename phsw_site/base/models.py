@@ -4,10 +4,14 @@ from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.hashers import make_password
 from django.core.mail import send_mail
 from django.db import models
-from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django_cpf_cnpj.fields import CPFField, CNPJField
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from rest_framework.authtoken.models import Token
+
+from phsw_site import settings
 
 
 class UserManager(BaseUserManager):
@@ -156,3 +160,10 @@ class TipoEmpresa(models.Model):
 
     def __str__(self):
         return f'Tipo de empresa: {self.verbose_name}'
+
+
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)  # every time a user was created, a token will be generated fo that user.
+

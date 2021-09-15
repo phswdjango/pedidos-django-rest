@@ -23,8 +23,10 @@ urlpatterns = [
     path('', include('phsw_site.base.urls')),
     path('usuario/', include('django.contrib.auth.urls')),
     path('pedidos/', include('phsw_site.pedidos.urls')),
-    path('api-auth/', include('rest_framework.urls'))
 
+    # REST URLS
+    path('api/pedidos/', include('phsw_site.pedidos.api.urls', 'api_pedidos')),
+    path('api/base/', include('phsw_site.base.api.urls', 'user_api')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
