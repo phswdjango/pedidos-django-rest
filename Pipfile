@@ -20,6 +20,10 @@ gunicorn = "*"
 django-cpf-cnpj = "*"
 pillow = "*"
 django-axes = "*"
+python-barcode = "*"
+pdfkit = "*"
+jinja2 = "*"
+djangorestframework = "*"
 
 [dev-packages]
 pytest = "*"

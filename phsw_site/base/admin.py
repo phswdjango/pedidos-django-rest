@@ -18,10 +18,11 @@ from django.utils.translation import gettext, gettext_lazy as _
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
 
-from phsw_site.base.models import User, Empresa, StatusEmpresa, TipoEmpresa
+from phsw_site.base.models import User, Empresa
 
 csrf_protect_m = method_decorator(csrf_protect)
 sensitive_post_parameters_m = method_decorator(sensitive_post_parameters())
+
 
 # ------------/ Esse trexo do codigo nao precisa ser sobrescrito. Por isso nao será usado.
 # @admin.register(Group)
@@ -45,7 +46,8 @@ class UserAdmin(admin.ModelAdmin):
     change_user_password_template = None
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        (_('Personal info'), {'fields': ('first_name', 'last_name', 'cpf', 'fk_empresa', 'is_agente_admin')}),
+        (_('Personal info'),
+         {'fields': ('first_name', 'last_name', 'cpf', 'fk_empresa', 'is_agente_admin', 'all_api_permissions')}),
         (_('Permissions'), {
             'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions'),
         }),
@@ -83,12 +85,12 @@ class UserAdmin(admin.ModelAdmin):
 
     def get_urls(self):
         return [
-            path(
-                '<id>/password/',
-                self.admin_site.admin_view(self.user_change_password),
-                name='auth_user_password_change',
-            ),
-        ] + super().get_urls()
+                   path(
+                       '<id>/password/',
+                       self.admin_site.admin_view(self.user_change_password),
+                       name='auth_user_password_change',
+                   ),
+               ] + super().get_urls()
 
     def lookup_allowed(self, lookup, value):
         # Don't allow lookups involving passwords.
@@ -209,21 +211,8 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(Empresa)
 class EmpresaAdmin(admin.ModelAdmin):
-    list_display = ('nome_empresa', 'cnpj', 'codigo_cliente', 'codigo_vendedor', 'fk_statusEmpresa', 'fk_tipoEmpresa', 'fk_tabelaPreco')
-    list_filter = ('nome_empresa', 'fk_tipoEmpresa')
+    list_display = (
+    'id', 'nome_empresa', 'cnpj', 'codigo_cliente', 'codigo_vendedor', 'statusEmpresa', 'tipoEmpresa', 'fk_tabelaPreco')
+    list_filter = ('nome_empresa', 'tipoEmpresa')
     search_fields = ('nome_empresa', 'cnpj')
     ordering = ('nome_empresa',)
-
-
-@admin.register(StatusEmpresa)
-class StatusEmpresaAdmin(admin.ModelAdmin):
-    list_display = ('descricao', 'verbose_name')
-
-
-@admin.register(TipoEmpresa)
-class TipoEmpresaAdmin(admin.ModelAdmin):
-    list_display = ('descricao', 'verbose_name')
-
-
-
-

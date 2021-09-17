@@ -4,10 +4,14 @@ from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.hashers import make_password
 from django.core.mail import send_mail
 from django.db import models
-from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django_cpf_cnpj.fields import CPFField, CNPJField
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from rest_framework.authtoken.models import Token
+
+from phsw_site import settings
 
 
 class UserManager(BaseUserManager):
@@ -81,6 +85,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     cpf = CPFField(masked=True, blank=True, verbose_name="CPF")
     fk_empresa = models.ForeignKey('Empresa', blank=True, on_delete=models.PROTECT, null=True, verbose_name="Empresa")
     is_agente_admin = models.BooleanField(default=False)
+    all_api_permissions = models.BooleanField(default=False)
 
     is_staff = models.BooleanField(  # essa propriedade define os usuarios que podem acessar o admin do django
         _('staff status'),
@@ -130,29 +135,48 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Empresa(models.Model):
+    tipo_choices = (
+        ("D", "Distribuidora"),
+        ("L", "Lojista"),
+        ("O", "Outros")
+    )
+    status_choices = (
+        ("A", "Ativado"),
+        ("D", "Desativado"),
+        ("B", "Bloqueado"),
+    )
     fk_tabelaPreco = models.ForeignKey('pedidos.TabelaPreco', blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name="Tabela preço")
     nome_empresa = models.CharField(max_length=60, verbose_name="Empresa")
     cnpj = CNPJField(masked=True, blank=True, verbose_name="CNPJ")
     codigo_cliente = models.CharField(blank=True, max_length=9, verbose_name="Código do cliente")
     codigo_vendedor = models.CharField(blank=True, max_length=9, verbose_name="Código do vendedor")
-    fk_statusEmpresa = models.ForeignKey('StatusEmpresa', on_delete=models.DO_NOTHING, verbose_name="Status")
-    fk_tipoEmpresa = models.ForeignKey('TipoEmpresa', on_delete=models.DO_NOTHING, verbose_name="Tipo de empresa")
+    # fk_statusEmpresa = models.ForeignKey('StatusEmpresa', on_delete=models.DO_NOTHING, verbose_name="Status")
+    # fk_tipoEmpresa = models.ForeignKey('TipoEmpresa', on_delete=models.DO_NOTHING, verbose_name="Tipo de empresa")
+    statusEmpresa = models.CharField(max_length=1, choices=status_choices)
+    tipoEmpresa = models.CharField(max_length=1, choices=tipo_choices)
 
     def __str__(self):
         return f'Empresa: {self.nome_empresa}'
 
+#
+# class StatusEmpresa(models.Model):
+#     descricao = models.TextField(default="sem descrição", verbose_name="Descrição")
+#     verbose_name = models.CharField(max_length=15, verbose_name="Nome")
+#
+#     def __str__(self):
+#         return f'Status: {self.verbose_name}'
 
-class StatusEmpresa(models.Model):
-    descricao = models.TextField(default="sem descrição", verbose_name="Descrição")
-    verbose_name = models.CharField(max_length=15, verbose_name="Nome")
 
-    def __str__(self):
-        return f'Status: {self.verbose_name}'
+# class TipoEmpresa(models.Model):
+#     descricao = models.CharField(max_length=100, verbose_name="Descrição")
+#     verbose_name = models.CharField(max_length=15, verbose_name="Nome")
+#
+#     def __str__(self):
+#         return f'Tipo de empresa: {self.verbose_name}'
 
 
-class TipoEmpresa(models.Model):
-    descricao = models.CharField(max_length=100, verbose_name="Descrição")
-    verbose_name = models.CharField(max_length=15, verbose_name="Nome")
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)  # every time a user was created, a token will be generated fo that user.
 
-    def __str__(self):
-        return f'Tipo de empresa: {self.verbose_name}'
