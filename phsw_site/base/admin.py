@@ -18,7 +18,7 @@ from django.utils.translation import gettext, gettext_lazy as _
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
 
-from phsw_site.base.models import User, Empresa, StatusEmpresa, TipoEmpresa
+from phsw_site.base.models import User, Empresa
 
 csrf_protect_m = method_decorator(csrf_protect)
 sensitive_post_parameters_m = method_decorator(sensitive_post_parameters())
@@ -212,17 +212,7 @@ class UserAdmin(admin.ModelAdmin):
 @admin.register(Empresa)
 class EmpresaAdmin(admin.ModelAdmin):
     list_display = (
-    'nome_empresa', 'cnpj', 'codigo_cliente', 'codigo_vendedor', 'fk_statusEmpresa', 'fk_tipoEmpresa', 'fk_tabelaPreco')
-    list_filter = ('nome_empresa', 'fk_tipoEmpresa')
+    'id', 'nome_empresa', 'cnpj', 'codigo_cliente', 'codigo_vendedor', 'statusEmpresa', 'tipoEmpresa', 'fk_tabelaPreco')
+    list_filter = ('nome_empresa', 'tipoEmpresa')
     search_fields = ('nome_empresa', 'cnpj')
     ordering = ('nome_empresa',)
-
-
-@admin.register(StatusEmpresa)
-class StatusEmpresaAdmin(admin.ModelAdmin):
-    list_display = ('descricao', 'verbose_name')
-
-
-@admin.register(TipoEmpresa)
-class TipoEmpresaAdmin(admin.ModelAdmin):
-    list_display = ('descricao', 'verbose_name')

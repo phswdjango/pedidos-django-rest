@@ -16,7 +16,7 @@ class PedidoSerializer(serializers.ModelSerializer):
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
-        fields = ['imagem', 'id_item', 'fk_categoria', 'verbose_name', 'descricao', 'unidade', 'codigo_barras', 'ativado']
+        fields = ['imagem', 'codigo_item', 'fk_categoria', 'verbose_name', 'descricao', 'unidade', 'codigo_barras', 'ativado']
 
 
 # cannot update itens if Serializer have the primary key field
@@ -36,7 +36,6 @@ class ModelObjectidField(serializers.Field):
     """
 
     def to_representation(self, value):
-        # return value.id
         return value.id
 
     def to_internal_value(self, data):
@@ -59,13 +58,14 @@ class BulkCreateUpdateListSerializer(serializers.ListSerializer):
 
     def to_representation(self, instances):
 
-        start = time.time()
+        # start = time.time()
         fk_categoria = instances[0].fk_categoria.pk
         rep_list = []
         for instance in instances:
             rep_list.append(
                 dict(
-                    id_item=instance.pk,
+                    id=instance.pk,
+                    codigo_item=instance.codigo_item,
                     fk_categoria=fk_categoria,
                     verbose_name=instance.verbose_name,
                     descricao=instance.descricao,
@@ -75,16 +75,16 @@ class BulkCreateUpdateListSerializer(serializers.ListSerializer):
                 )
             )
 
-        print("to_rep", time.time() - start)
+        # print("to_rep", time.time() - start)
 
         return rep_list
 
     def update(self, instances, validated_data):
-        start = time.time()
+        # start = time.time()
 
         instance_hash = {index: instance for index, instance in enumerate(instances)}
-        print("instance hash", time.time() - start)
-        start = time.time()
+        # print("instance hash", time.time() - start)
+        # start = time.time()
         result = [
             self.child.update(instance_hash[index], attrs)
             for index, attrs in enumerate(validated_data)
@@ -134,6 +134,7 @@ class BulkItemUpdateSerializer(serializers.ModelSerializer):
         return instance
 
     def update(self, instance, validated_data):
+        # instance.codigo_item = validated_data["codigo_item"]
         instance.fk_categoria = validated_data["fk_categoria"]
         instance.verbose_name = validated_data["verbose_name"]
         instance.descricao = validated_data["descricao"]
@@ -148,15 +149,17 @@ class BulkItemUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Item
-        fields = ('id_item', 'fk_categoria', 'verbose_name', 'descricao', 'unidade', 'codigo_barras', 'ativado')
+        fields = ('id', 'codigo_item', 'fk_categoria', 'verbose_name', 'descricao', 'unidade', 'codigo_barras', 'ativado')
+        read_only_fields = ('id', 'codigo_item')
         list_serializer_class = BulkCreateUpdateListSerializer
 
 # ---------------------------------------------------------------------
 
+
 class BulkItemCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
-        fields = ['id_item', 'fk_categoria', 'verbose_name', 'descricao', 'unidade', 'codigo_barras', 'ativado', 'imagem']
+        fields = ['codigo_item', 'fk_categoria', 'verbose_name', 'descricao', 'unidade', 'codigo_barras', 'ativado', 'imagem']
 
     def create(self, validated_data):
         instance = Item(**validated_data)

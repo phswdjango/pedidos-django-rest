@@ -26,7 +26,7 @@ def api_get_all_itens(request):
 @permission_classes([IsAuthenticated])
 def api_get_item(request, slug):
     try:
-        item = Item.objects.get(id_item=slug)
+        item = Item.objects.get(codigo_item=slug)
     except Item.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     serializer = ItemSerializer(item)
@@ -38,7 +38,7 @@ def api_get_item(request, slug):
 def api_update_item(request, slug):
     if request.user.all_api_permissions:
         try:
-            item = Item.objects.get(id_item=slug)
+            item = Item.objects.get(codigo_item=slug)
         except Item.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         serializer = ItemUpdateSerializer(item, data=request.data)
@@ -50,8 +50,10 @@ def api_update_item(request, slug):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     return Response({'response': 'Nao possui permissoes para acessar esse recurso.'}, status=status.HTTP_401_UNAUTHORIZED)
 
+
 # ----------------------------------/ BULK /----------------------------------
-def validate_ids(data, field="id_item", unique=True):
+
+def validate_ids(data, field="id", unique=True):
 
     if isinstance(data, list):
         id_list = [int(x[field]) for x in data]
@@ -78,15 +80,15 @@ class Api_Bulk_Item_Update(generics.ListCreateAPIView):
     def get_queryset(self, ids=None):
         if ids:
             return Item.objects.filter(
-                id_item__in=ids,
+                id__in=ids,
                 # project__pk=self.kwargs["project_id"], id__in=ids,
             )
         # return Item.objects.filter(project__id=self.kwargs["project_id"],)
-        return Item.objects.filter(id_item=self.kwargs["id_item"])
+        return Item.objects.filter(id=self.kwargs["id"])
 
     def post(self, request, *args, **kwargs):
 
-        fk_categoria = CategoriaItem.objects.get(id_categoria=kwargs["fk_categoria_id"])
+        fk_categoria = CategoriaItem.objects.get(id=kwargs["fk_categoria_id"])
         # editado ^
         if isinstance(request.data, list):
             for item in request.data:
@@ -101,7 +103,7 @@ class Api_Bulk_Item_Update(generics.ListCreateAPIView):
 
     def update(self, request, *args, **kwargs):
 
-        fk_categoria = CategoriaItem.objects.get(id_categoria=kwargs["fk_categoria_id"])
+        fk_categoria = CategoriaItem.objects.get(id=kwargs["fk_categoria_id"])
 
         ids = validate_ids(request.data)
 
@@ -134,7 +136,7 @@ class Api_Bulk_Item_Update(generics.ListCreateAPIView):
 def api_delete_item(request, slug):
     if request.user.all_api_permissions:
         try:
-            item = Item.objects.get(id_item=slug)
+            item = Item.objects.get(codigo_item=slug)
         except Item.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         operation = item.delete()

@@ -17,5 +17,5 @@ urlpatterns = [
     path('item/delete/<slug>/', api_delete_item, name='delete_item'),
     path('item/create/', api_create_item, name='create_item'),
     path('item/bulk-item-create/', api_bulk_item_create, name='bulk_item_create'),
-    path('item/bulk-item-update/', Api_Bulk_Item_Update.as_view(), name='bulk_item_update'),
+    path('item/bulk-item-update/<fk_categoria_id>/', Api_Bulk_Item_Update.as_view(), name='bulk_item_update'),
 ]

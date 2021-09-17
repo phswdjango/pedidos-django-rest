@@ -4,7 +4,7 @@ from .utils import image_resize
 
 
 class Item(models.Model):
-    id_item = models.CharField(max_length=15, primary_key=True)
+    codigo_item = models.CharField(max_length=15, unique=True)
     fk_categoria = models.ForeignKey('CategoriaItem', on_delete=models.CASCADE, verbose_name="Categoria")
     verbose_name = models.CharField(max_length=50, verbose_name="Nome")
     descricao = models.TextField(default="sem descrição", verbose_name="Descrição")
@@ -35,7 +35,7 @@ class ItemPreco(models.Model):  # tabela intermediária
 
 
 class TabelaPreco(models.Model):
-    id_tabela = models.CharField(max_length=7, primary_key=True)
+    codigo_tabela = models.CharField(max_length=7, unique=True)
     verbose_name = models.CharField(max_length=50, verbose_name="Nome")
     itens = models.ManyToManyField(Item, through='ItemPreco')
 
@@ -44,9 +44,18 @@ class TabelaPreco(models.Model):
 
 
 class Pedido(models.Model):
+    status_choices = (
+        ("0", "Digitação"),
+        ("1", "Transferido"),
+        ("2", "Registrado"),
+        ("3", "Faturado"),
+        ("5", "Entregue"),
+        ("9", "Cancelado")
+    )
     fk_empresa = models.ForeignKey('base.Empresa', on_delete=models.CASCADE, verbose_name="Empresa")
     fk_usuario = models.ForeignKey('base.User', on_delete=models.PROTECT, verbose_name="Usuário")
-    fk_status = models.ForeignKey('StatusPedido', on_delete=models.PROTECT, verbose_name="Status")
+    # fk_status = models.ForeignKey('StatusPedido', on_delete=models.PROTECT, verbose_name="Status")
+    status = models.CharField(max_length=1, choices=status_choices)
     # numero_nota = formato(' 999.999.999')
     data_pedido = models.DateTimeField(default=timezone.now, verbose_name="Data do pedido")
     data_faturamento = models.DateTimeField(blank=True, null=True, verbose_name="Data do faturamento")
@@ -56,12 +65,12 @@ class Pedido(models.Model):
         return f'Pedido N. {self.pk}'
 
 
-class StatusPedido(models.Model):
-    descricao = models.TextField(default="sem descrição", verbose_name="Descrição")
-    verbose_name = models.CharField(max_length=15, verbose_name="Nome")
-
-    def __str__(self):
-        return f'Status: {self.verbose_name}'
+# class StatusPedido(models.Model):
+#     descricao = models.TextField(default="sem descrição", verbose_name="Descrição")
+#     verbose_name = models.CharField(max_length=15, verbose_name="Nome")
+#
+#     def __str__(self):
+#         return f'Status: {self.verbose_name}'
 
 
 class ItemPedido(models.Model):
@@ -77,7 +86,7 @@ class ItemPedido(models.Model):
 
 
 class CategoriaItem(models.Model):
-    id_categoria = models.CharField(max_length=8, primary_key=True)
+    codigo_categoria = models.CharField(max_length=8, unique=True)
     descricao = models.TextField(default="sem descrição", verbose_name="Descrição")
     verbose_name = models.CharField(max_length=15, verbose_name="Nome")
 
