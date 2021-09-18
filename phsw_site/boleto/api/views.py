@@ -9,7 +9,6 @@ from phsw_site.boleto.utils import gerar_boleto
 parametros = {
     "comando": "boleto",
     "modelo": "1",
-    "outputpath": "/home/phsw/Documents/boleto2.pdf",
     "campos": {
         "banco": "sicoob",
         "codigo_banco": "756-0",
