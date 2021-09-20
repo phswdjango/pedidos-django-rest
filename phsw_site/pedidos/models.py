@@ -25,6 +25,15 @@ class Item(models.Model):
         super().save(*args, **kwargs)
 
 
+class CategoriaItem(models.Model):
+    codigo_categoria = models.CharField(max_length=8, unique=True)
+    descricao = models.TextField(default="sem descrição", verbose_name="Descrição")
+    verbose_name = models.CharField(max_length=15, verbose_name="Nome")
+
+    def __str__(self):
+        return f'Categoria: {self.verbose_name}'
+
+
 class ItemPreco(models.Model):  # tabela intermediária
     class Meta:
         unique_together = (('fk_tabelaPreco', 'fk_item'),)
@@ -85,10 +94,3 @@ class ItemPedido(models.Model):
     preco_unit = models.DecimalField(max_digits=11, decimal_places=2, verbose_name="Preço unitario")
 
 
-class CategoriaItem(models.Model):
-    codigo_categoria = models.CharField(max_length=8, unique=True)
-    descricao = models.TextField(default="sem descrição", verbose_name="Descrição")
-    verbose_name = models.CharField(max_length=15, verbose_name="Nome")
-
-    def __str__(self):
-        return f'Categoria: {self.verbose_name}'
