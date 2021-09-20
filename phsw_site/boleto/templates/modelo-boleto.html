@@ -5,6 +5,7 @@
     <style>
 * {
   box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
 
 .container {
@@ -83,6 +84,7 @@ br {
    content: "";
 }
 
+
     </style>
 </head>
 <body>
@@ -98,9 +100,7 @@ br {
 
     <div class="row">
         <div class="col-beneficiario"><p class="descritivo">Beneficiario:</p>
-            <div style="display: flex;"><p class="conteudo">{{ beneficiario }}</p>
-                <p class="conteudo">&nbsp; - &nbsp;</p>
-                <p class="conteudo">CNPJ: {{ CNPJ_beneficiario }}</p></div>
+            <div style="display: flex;"><p class="conteudo">{{ beneficiario }}&nbsp; - &nbsp;CNPJ: {{ CNPJ_beneficiario }}</p></div>
             <br>
             <p class="conteudo">{{ endereco_beneficiario }}</p></div>
         <div class="col-agencia-codigo-cedente"><p class="descritivo">Agencia / Codigo Cedente:</p><br>
@@ -226,13 +226,13 @@ br {
         <div class="col-pagador2">
             <p class="descritivo">Pagador:</p>
             <p class="conteudo" style=" padding: 0 14px; ">{{ pagador }} - CNPJ: {{ CNPJ_pagador }} <br>
-             {{ endereco_pagador }}</p>
+                {{ endereco_pagador }}</p>
         </div>
     </div>
     <div class="row">
         <div class="col-codigo-barras">
             <p class="descritivo">Sacador / Avalista:</p>
-<!--            <p class="conteudo" style=" padding: 0 14px; "></p>-->
+            <!--            <p class="conteudo" style=" padding: 0 14px; "></p>-->
             <div>{{ barcode_svg }}</div>
         </div>
     </div>
