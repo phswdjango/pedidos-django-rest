@@ -14,7 +14,7 @@ class Item(models.Model):
     imagem = models.ImageField(default="imagens/itens/defaultimage.jpeg", upload_to='imagens/itens/')
 
     def __str__(self):
-        return f'Item: {self.verbose_name}'
+        return f'{self.verbose_name} - {self.codigo_item}'
 
     class Meta:
         verbose_name_plural = 'Itens'
@@ -25,11 +25,20 @@ class Item(models.Model):
         super().save(*args, **kwargs)
 
 
+class CategoriaItem(models.Model):
+    codigo_categoria = models.CharField(max_length=8, unique=True)
+    descricao = models.TextField(default="sem descrição", verbose_name="Descrição")
+    verbose_name = models.CharField(max_length=15, verbose_name="Nome")
+
+    def __str__(self):
+        return f'Categoria: {self.verbose_name}'
+
+
 class ItemPreco(models.Model):  # tabela intermediária
     class Meta:
         unique_together = (('fk_tabelaPreco', 'fk_item'),)
-    fk_tabelaPreco = models.ForeignKey('TabelaPreco', on_delete=models.CASCADE, verbose_name="Tabela de preço")
-    fk_item = models.ForeignKey('Item', on_delete=models.CASCADE, verbose_name="Item")
+    fk_tabelaPreco = models.ForeignKey('TabelaPreco', on_delete=models.CASCADE, related_name='itens_preco', verbose_name="Tabela de preço")
+    fk_item = models.ForeignKey('Item', on_delete=models.CASCADE, related_name='item_code', verbose_name="Item")
     preco_unit = models.DecimalField(max_digits=11, decimal_places=2, verbose_name="Preço unitario")
     data = models.DateTimeField(auto_now_add=True, verbose_name="Data")
 
@@ -40,7 +49,7 @@ class TabelaPreco(models.Model):
     itens = models.ManyToManyField(Item, through='ItemPreco')
 
     def __str__(self):
-        return f'Tabela: {self.verbose_name}'
+        return f'{self.verbose_name} - {self.codigo_tabela}'
 
 
 class Pedido(models.Model):
@@ -85,10 +94,3 @@ class ItemPedido(models.Model):
     preco_unit = models.DecimalField(max_digits=11, decimal_places=2, verbose_name="Preço unitario")
 
 
-class CategoriaItem(models.Model):
-    codigo_categoria = models.CharField(max_length=8, unique=True)
-    descricao = models.TextField(default="sem descrição", verbose_name="Descrição")
-    verbose_name = models.CharField(max_length=15, verbose_name="Nome")
-
-    def __str__(self):
-        return f'Categoria: {self.verbose_name}'
