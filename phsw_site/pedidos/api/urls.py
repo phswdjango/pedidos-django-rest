@@ -9,7 +9,7 @@ from phsw_site.pedidos.api.views import (
     SpecificOrderApi,
 
     # Category
-    CategoryApi, SpecificCategoryApi,
+    CategoryApi, SpecificCategoryApi, PriceTableApi, ItemPriceApi,
 
 )
 
@@ -28,5 +28,8 @@ urlpatterns = [
     path('category/<code>/', SpecificCategoryApi.as_view(), name='api_specific_category'),
 
     # Price list
+    path('pricetable/', PriceTableApi.as_view(), name='api_pricetable'),
 
+    # Item Price
+    path('itemprice/', ItemPriceApi.as_view(), name='api_itemprice')
 ]
