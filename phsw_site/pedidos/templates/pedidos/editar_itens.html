@@ -12,15 +12,15 @@
         {% csrf_token %}
         {% for categoria in categorias %}
     <div class="accordion-item">
-        <h2 class="accordion-header" id="panelsStayOpen-heading-{{ categoria.id_categoria }}">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse-{{ categoria.id_categoria }}"
+        <h2 class="accordion-header" id="panelsStayOpen-heading-{{ categoria.id }}">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse-{{ categoria.id }}"
                     aria-expanded="false"
-                    aria-controls="panelsStayOpen-collapse-{{ categoria.id_categoria }}">
+                    aria-controls="panelsStayOpen-collapse-{{ categoria.id }}">
                 {{ categoria.verbose_name }}
             </button>
         </h2>
-        <div id="panelsStayOpen-collapse-{{ categoria.id_categoria }}" class="accordion-collapse collapse"
-             aria-labelledby="panelsStayOpen-heading-{{ categoria.id_categoria }}">
+        <div id="panelsStayOpen-collapse-{{ categoria.id }}" class="accordion-collapse collapse"
+             aria-labelledby="panelsStayOpen-heading-{{ categoria.id }}">
             <div class="accordion-body">
                 <div class="table-responsive">
                     <table class="table">
@@ -40,15 +40,15 @@
                         <tbody>
                             {% for item in categoria.itens %}
                             <tr>
-                                <td><p><img src="{{ item.imagem.url }}" style="max-width: 115px; height: auto;"></p><br><input type="file" name="item-image-{{ item.id_item }}" id="item-image-{{ item.id_item }}" accept="image/*"></td>
-                                <td><p style="margin: 20px 15px;">{{ item.id_item }}</p></td>
-                                <td><p style="margin: 20px 15px;"><input type="text" name="item-nome-{{ item.id_item }}" maxlength="50" required id="item-nome-{{ item.id_item }}" value="{{ item.verbose_name }}"></p></td>
+                                <td><p><img src="{{ item.imagem.url }}" style="max-width: 115px; height: auto;"></p><br><input type="file" name="item-image-{{ item.id }}" id="item-image-{{ item.id }}" accept="image/*"></td>
+                                <td><p style="margin: 20px 15px;">{{ item.id }}</p></td>
+                                <td><p style="margin: 20px 15px;"><input type="text" name="item-nome-{{ item.id }}" maxlength="50" required id="item-nome-{{ item.id }}" value="{{ item.verbose_name }}"></p></td>
                                 <td><p style="margin: 20px 15px;">R$ X</p></td>
-                                <td><p style="margin: 20px 15px;"><textarea name="item-descricao-{{ item.id_item }}" cols="40" rows="2" required id="item-descricao-{{ item.id_item }}">{{ item.descricao }}</textarea></p></td>
-                                <td><p style="margin: 20px 15px;"><input type="text" name="item-unidade-{{ item.id_item }}" maxlength="10" required id="item-unidade-{{ item.id_item }}" value="{{ item.unidade }}"></p></td>
-                                <td><p style="margin: 20px 15px;"><select name="item-categoria-{{ item.id_item }}" required id="item-categoria-{{ item.id_item }}">{% for categoria in categorias %}<option value="{{categoria.id_categoria}}" {% if categoria.id_categoria == item.fk_categoria_id %} selected {% endif %}>{{categoria}}</option>{% endfor %}</select> </p></td>
-                                <td><p style="margin: 20px 15px;"><input type="text" name="item-codigo_barras-{{ item.id_item }}" maxlength="13" required id="item-codigo_barras-{{ item.id_item }}" value="{{ item.codigo_barras }}"> </p></td>
-                                <td><p style="margin: 20px 15px;"><input type="checkbox" name="item-ativado-{{ item.id_item }}" id="item-ativado-{{ item.id_item }}" {% if item.ativado %}checked{% endif %}> </p></td>
+                                <td><p style="margin: 20px 15px;"><textarea name="item-descricao-{{ item.id }}" cols="40" rows="2" required id="item-descricao-{{ item.id }}">{{ item.descricao }}</textarea></p></td>
+                                <td><p style="margin: 20px 15px;"><input type="text" name="item-unidade-{{ item.id }}" maxlength="10" required id="item-unidade-{{ item.id }}" value="{{ item.unidade }}"></p></td>
+                                <td><p style="margin: 20px 15px;"><select name="item-categoria-{{ item.id }}" required id="item-categoria-{{ item.id }}">{% for categoria in categorias %}<option value="{{categoria.id}}" {% if categoria.id == item.fk_categoria_id %} selected {% endif %}>{{categoria}}</option>{% endfor %}</select> </p></td>
+                                <td><p style="margin: 20px 15px;"><input type="text" name="item-codigo_barras-{{ item.id }}" maxlength="13" required id="item-codigo_barras-{{ item.id }}" value="{{ item.codigo_barras }}"> </p></td>
+                                <td><p style="margin: 20px 15px;"><input type="checkbox" name="item-ativado-{{ item.id }}" id="item-ativado-{{ item.id }}" {% if item.ativado %}checked{% endif %}> </p></td>
                             </tr>
                             {% endfor %}
                         </tbody>

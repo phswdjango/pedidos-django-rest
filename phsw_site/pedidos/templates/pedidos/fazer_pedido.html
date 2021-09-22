@@ -7,44 +7,46 @@
 <div class="accordion" id="accordionPanelsStayOpenExample">
     {% for categoria in categorias %}
     <div class="accordion-item">
-        <h2 class="accordion-header" id="panelsStayOpen-heading-{{ categoria.id_categoria }}">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse-{{ categoria.id_categoria }}"
+        <h2 class="accordion-header" id="panelsStayOpen-heading-{{ categoria.id }}">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panelsStayOpen-collapse-{{ categoria.id }}"
                     aria-expanded="false"
-                    aria-controls="panelsStayOpen-collapse-{{ categoria.id_categoria }}">
+                    aria-controls="panelsStayOpen-collapse-{{ categoria.id }}">
                 {{ categoria.verbose_name }}
             </button>
         </h2>
-        <div id="panelsStayOpen-collapse-{{ categoria.id_categoria }}" class="accordion-collapse collapse"
-             aria-labelledby="panelsStayOpen-heading-{{ categoria.id_categoria }}">
+        <div id="panelsStayOpen-collapse-{{ categoria.id }}" class="accordion-collapse collapse"
+             aria-labelledby="panelsStayOpen-heading-{{ categoria.id }}">
             <div class="accordion-body">
                 <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th scope="col">Imagem</th>
-                        <th scope="col">Código</th>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Valor</th>
-                        <th scope="col">Descrição</th>
-                        <th scope="col">Unidade</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for item in categoria.itens %}
-                    <tr>
-                        <th scope="row"><p><img src="{{ item.imagem.url }}" style="max-width: 115px; height: auto;"></p></th>
-                        <td><p style="margin: 20px 15px;">{{ item.id_item }}</p></td>
-                        <td><p style="margin: 20px 15px;">Nome: {{ item.verbose_name }}</p></td>
-                        <td><p style="margin: 20px 15px;">Valor: R$ X</p></td>
-                        <td><p style="margin: 20px 15px;">Descrição: {{ item.descricao }}</p></td>
-                        <td><p style="margin: 20px 15px;">Unidade: {{ item.unidade }}</p></td>
-                    </tr>
-                    {% endfor %}
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Imagem</th>
+                            <th scope="col">Código</th>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Valor</th>
+                            <th scope="col">Descrição</th>
+                            <th scope="col">Unidade</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in categoria.itens %}
+                        <tr>
+                            <th scope="row"><p><img src="{{ item.imagem.url }}" style="max-width: 115px; height: auto;">
+                            </p></th>
+                            <td><p style="margin: 20px 15px;">{{ item.id }}</p></td>
+                            <td><p style="margin: 20px 15px;">Nome: {{ item.verbose_name }}</p></td>
+                            <td><p style="margin: 20px 15px;">Valor: R$ X</p></td>
+                            <td><p style="margin: 20px 15px;">Descrição: {{ item.descricao }}</p></td>
+                            <td><p style="margin: 20px 15px;">Unidade: {{ item.unidade }}</p></td>
+                        </tr>
+                        {% endfor %}
 
-                    </tbody>
+                        </tbody>
 
-                </table>
-                    </div>
+                    </table>
+                </div>
 
             </div>
         </div>
@@ -53,7 +55,6 @@
 </div>
 
 </br>
-
 
 
 {% endblock body %}
