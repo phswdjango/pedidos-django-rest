@@ -53,11 +53,6 @@ def buscar_itens_por_categoria():
 
 
 def user_category_items_queryset(request):
-    # items = request.user.fk_empresa.fk_tabelaPreco.itens_preco.select_related('fk_item')
-    # items = request.user.fk_empresa.fk_tabelaPreco.itens.prefetch_related('item_code')
-    # items = Item.objects.prefetch_related('item_code').filter(tabelapreco=request.user.fk_empresa.fk_tabelaPreco)
-    # itemspreco = request.user.fk_empresa.fk_tabelaPreco.itens_preco.all()
-    # items = Item.objects.prefetch_related(Prefetch('item_code', queryset=itemspreco, to_attr='itempreco'))
 
     tabelaornone = request.user.fk_empresa.fk_tabelaPreco
     if not request.user.fk_empresa or not tabelaornone:
@@ -66,6 +61,12 @@ def user_category_items_queryset(request):
     items = Item.objects.filter(ativado=True).filter(tabelapreco__pk=tabelaornone.id)
     return CategoriaItem.objects.prefetch_related(
         Prefetch('item_set', queryset=items, to_attr='itens')).all()
+
+    # items = request.user.fk_empresa.fk_tabelaPreco.itens_preco.select_related('fk_item')
+    # items = request.user.fk_empresa.fk_tabelaPreco.itens.prefetch_related('item_code')
+    # items = Item.objects.prefetch_related('item_code').filter(tabelapreco=request.user.fk_empresa.fk_tabelaPreco)
+    # itemspreco = request.user.fk_empresa.fk_tabelaPreco.itens_preco.all()
+    # items = Item.objects.prefetch_related(Prefetch('item_code', queryset=itemspreco, to_attr='itempreco'))
 
     # if not request.user.fk_empresa or not request.user.fk_empresa.fk_tabelaPreco:
     #     return None
