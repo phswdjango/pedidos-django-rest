@@ -9,7 +9,8 @@ from .forms import ItemForm
 
 @login_required
 def fazer_pedido(request):
-    categoria_queryset = facade.buscar_itens_por_categoria()
+    # categoria_queryset = facade.buscar_itens_por_categoria()
+    categoria_queryset = facade.user_category_items_queryset(request)
     if request.method != 'POST':
         return render(request, 'pedidos/fazer_pedido.html', context={'categorias': categoria_queryset})
 

@@ -74,14 +74,6 @@ class Pedido(models.Model):
         return f'Pedido N. {self.pk}'
 
 
-# class StatusPedido(models.Model):
-#     descricao = models.TextField(default="sem descrição", verbose_name="Descrição")
-#     verbose_name = models.CharField(max_length=15, verbose_name="Nome")
-#
-#     def __str__(self):
-#         return f'Status: {self.verbose_name}'
-
-
 class ItemPedido(models.Model):
     class Meta:
         unique_together = (('fk_pedido', 'fk_item'),)
@@ -92,5 +84,15 @@ class ItemPedido(models.Model):
     fk_item = models.ForeignKey('Item', on_delete=models.DO_NOTHING, verbose_name="Item")
     quantidade = models.DecimalField(max_digits=11, decimal_places=2, verbose_name="Quantidade")
     preco_unit = models.DecimalField(max_digits=11, decimal_places=2, verbose_name="Preço unitario")
+
+
+# class StatusPedido(models.Model):
+#     descricao = models.TextField(default="sem descrição", verbose_name="Descrição")
+#     verbose_name = models.CharField(max_length=15, verbose_name="Nome")
+#
+#     def __str__(self):
+#         return f'Status: {self.verbose_name}'
+
+
 
 

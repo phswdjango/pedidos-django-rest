@@ -1,8 +1,9 @@
-from .models import Pedido, Item, CategoriaItem, ItemPedido
+from .models import Pedido, Item, CategoriaItem, ItemPedido, TabelaPreco
 from django.db.models import Q, Value, Prefetch
 from django.db.models.functions import Concat
 from django.contrib import messages
 
+# ----------------------------/ Orders /-----------------------------
 
 def buscar_pedidos(request):
     """
@@ -35,24 +36,49 @@ def buscar_pedidos(request):
         'fk_empresa')
 
 
-def buscar_itens_por_categoria():
-    itens_ativados = Item.objects.filter(ativado=True)
-    return CategoriaItem.objects.prefetch_related(
-        Prefetch('item_set', queryset=itens_ativados, to_attr='itens')).all()
-
-
-def buscar_todos_os_itens_por_categoria():
-    itens = Item.objects.all()
-    return CategoriaItem.objects.prefetch_related(
-        Prefetch('item_set', queryset=itens, to_attr='itens')).all()
-
-
 def buscar_pedido(request):
     return ItemPedido.objects.filter(fk_pedido_id=request.POST.get('id_pedido')).all()
 
 
 def fazer_pedido(request):
     pass
+
+
+# ------------------------------/ Items /--------------------------------------
+
+def buscar_itens_por_categoria():
+    itens_ativados = Item.objects.filter(ativado=True)
+    return CategoriaItem.objects.prefetch_related(
+        Prefetch('item_set', queryset=itens_ativados, to_attr='itens')).all()
+
+
+def user_category_items_queryset(request):
+    # items = request.user.fk_empresa.fk_tabelaPreco.itens_preco.select_related('fk_item')
+    # items = request.user.fk_empresa.fk_tabelaPreco.itens.prefetch_related('item_code')
+    # items = Item.objects.prefetch_related('item_code').filter(tabelapreco=request.user.fk_empresa.fk_tabelaPreco)
+    # itemspreco = request.user.fk_empresa.fk_tabelaPreco.itens_preco.all()
+    # items = Item.objects.prefetch_related(Prefetch('item_code', queryset=itemspreco, to_attr='itempreco'))
+
+    tabelaornone = request.user.fk_empresa.fk_tabelaPreco
+    if not request.user.fk_empresa or not tabelaornone:
+        return None
+
+    items = Item.objects.filter(ativado=True).filter(tabelapreco__pk=tabelaornone.id)
+    return CategoriaItem.objects.prefetch_related(
+        Prefetch('item_set', queryset=items, to_attr='itens')).all()
+
+    # if not request.user.fk_empresa or not request.user.fk_empresa.fk_tabelaPreco:
+    #     return None
+    #
+    # items = Item.objects.filter(ativado=True).filter(tabelapreco__pk=request.user.fk_empresa.fk_tabelaPreco_id)
+    # return CategoriaItem.objects.prefetch_related(
+    #     Prefetch('item_set', queryset=items, to_attr='itens')).all()
+
+
+def buscar_todos_os_itens_por_categoria():
+    itens = Item.objects.all()
+    return CategoriaItem.objects.prefetch_related(
+        Prefetch('item_set', queryset=itens, to_attr='itens')).all()
 
 
 def editar_itens(request):
