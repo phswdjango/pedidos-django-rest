@@ -41,20 +41,20 @@
             <td>{{user.first_name}} {{user.last_name}}</td>
             {% endif %}
             <td>{{pedido.fk_empresa.nome_empresa}}</td>
-            {% if pedido.fk_status.verbose_name == "Faturado" %}
-            <td style="color:green; font-weight: bold;">{{pedido.fk_status.verbose_name}}</td>
-            {% elif pedido.fk_status.verbose_name == "Cancelado" %}
-            <td style="color:red; font-weight: bold;">{{pedido.fk_status.verbose_name}}</td>
-            {% elif pedido.fk_status.verbose_name == "Entregue" %}
-            <td style="color:darkgreen; font-weight: bold;">{{pedido.fk_status.verbose_name}}</td>
-            {% elif pedido.fk_status.verbose_name == "Registrado" %}
-            <td style="color:black; font-weight: bold;">{{pedido.fk_status.verbose_name}}</td>
-            {% elif pedido.fk_status.verbose_name == "Transferido" %}
-            <td style="color:blue; font-weight: bold;">{{pedido.fk_status.verbose_name}}</td>
-            {% elif pedido.fk_status.verbose_name == "Digitação" %}
-            <td style="color:black; font-weight: bold;">{{pedido.fk_status.verbose_name}}</td>
+            {% if pedido.get_status_display == "Faturado" %}
+            <td style="color:green; font-weight: bold;">{{pedido.get_status_display}}</td>
+            {% elif pedido.get_status_display == "Cancelado" %}
+            <td style="color:red; font-weight: bold;">{{pedido.get_status_display}}</td>
+            {% elif pedido.get_status_display == "Entregue" %}
+            <td style="color:darkgreen; font-weight: bold;">{{pedido.get_status_display}}</td>
+            {% elif pedido.get_status_display == "Registrado" %}
+            <td style="color:black; font-weight: bold;">{{pedido.get_status_display}}</td>
+            {% elif pedido.get_status_display == "Transferido" %}
+            <td style="color:blue; font-weight: bold;">{{pedido.get_status_display}}</td>
+            {% elif pedido.get_status_display == "Digitação" %}
+            <td style="color:black; font-weight: bold;">{{pedido.get_status_display}}</td>
             {% else %}
-            <td style="font-weight: bold;">{{pedido.fk_status.verbose_name}}</td>
+            <td style="font-weight: bold;">{{pedido.get_status_display}}</td>
             {% endif %}
             <td>R$ {{pedido.valor_total}}</td>
             <td>{{pedido.data_pedido}}</td>

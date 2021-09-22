@@ -13,10 +13,13 @@ def buscar_pedidos(request):
 
     if request.GET.get('termo') is not None and request.GET.get('termo') != '':
         termo = request.GET.get('termo')
+        for status in Pedido.status_choices:
+            if termo.lower() in status[1].lower():
+                return Pedido.objects.filter(status=status[0]).all()
         campos = Concat('fk_usuario__first_name', Value(' '), 'fk_usuario__last_name')  # precisa do value pra simuar o ' '
         if request.user.is_agente_admin:
             return Pedido.objects.annotate(nome_completo=campos).order_by('-data_pedido').filter(
-                Q(status__icontains=termo) | Q(fk_empresa__nome_empresa__icontains=termo) |
+                Q(status=termo) | Q(fk_empresa__nome_empresa__icontains=termo) |
                 Q(valor_total__icontains=termo) | Q(fk_usuario__first_name__icontains=termo) | Q(fk_usuario__last_name__icontains=termo)
                 | Q(nome_completo__icontains=termo), fk_empresa=request.user.fk_empresa).select_related(
                 'fk_empresa', 'fk_usuario')
@@ -45,7 +48,7 @@ def buscar_todos_os_itens_por_categoria():
 
 
 def buscar_pedido(request):
-    return ItemPedido.objects.filter(fk_pedido_id=request.POST.get('id')).all()
+    return ItemPedido.objects.filter(fk_pedido_id=request.POST.get('id_pedido')).all()
 
 
 def fazer_pedido(request):
