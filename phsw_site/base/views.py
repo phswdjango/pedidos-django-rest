@@ -6,26 +6,26 @@ def home(request):
     return render(request, 'base/home.html')
 
 
-# ---------------/ Usuário
+# ---------------/ User
 
 
 @login_required
-def criar_usuario(request):
-    return render(request, 'usuario/criar_usuario.html', context={'arg': "arg", })
+def create_user(request):
+    return render(request, 'user/create_user.html', context={'arg': "arg", })
 
 
 @login_required
-def editar_usuarios(request):
-    return render(request, 'usuario/editar_usuario.html', context={'arg': "arg", })
+def edit_user(request):
+    return render(request, 'user/edit_user.html', context={'arg': "arg", })
 
 
-# ---------------/ Empresa
-
-@login_required
-def criar_empresa(request):
-    return render(request, 'usuario/criar_empresa.html', context={'arg': "arg", })
-
+# ---------------/ Company
 
 @login_required
-def editar_empresa(request):
-    return render(request, 'usuario/editar_empresa.html', context={'arg': "arg", })
+def create_company(request):
+    return render(request, 'user/create_company.html', context={'arg': "arg", })
+
+
+@login_required
+def edit_company(request):
+    return render(request, 'user/edit_company.html', context={'arg': "arg", })

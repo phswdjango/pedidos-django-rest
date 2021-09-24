@@ -20,8 +20,8 @@ def registration_view(request):
             data['last_name'] = user.last_name
             data['cpf'] = str(user.cpf)  # get serialize error if not convert to string
             data['email'] = user.email
-            data['fk_empresa'] = str(user.fk_empresa)
-            data['is_agente_admin'] = user.is_agente_admin
+            data['company'] = str(user.company)
+            data['is_admin_agent'] = user.is_admin_agent
             token = Token.objects.get(user=user).key
             data['token'] = token
         else:
@@ -33,10 +33,10 @@ def registration_view(request):
 
 @api_view(['GET', ])
 @permission_classes([IsAuthenticated])
-def check_user_view(request, slug):
+def check_user_view(request, code):
     if request.user.all_api_permissions:
         try:
-            user = User.objects.get(id=slug)
+            user = User.objects.get(id=code)
         except User.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         serializer = UserSerializer(user)

@@ -6,7 +6,6 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import (
     AdminPasswordChangeForm, UserChangeForm, UserCreationForm,
 )
-# from django.contrib.auth.models import Group   # nao esta sendo usado
 from django.core.exceptions import PermissionDenied
 from django.db import router, transaction
 from django.http import Http404, HttpResponseRedirect
@@ -18,36 +17,20 @@ from django.utils.translation import gettext, gettext_lazy as _
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
 
-from phsw_site.base.models import User, Empresa
+from phsw_site.base.models import User, Company
 
 csrf_protect_m = method_decorator(csrf_protect)
 sensitive_post_parameters_m = method_decorator(sensitive_post_parameters())
 
 
-# ------------/ Esse trexo do codigo nao precisa ser sobrescrito. Por isso nao será usado.
-# @admin.register(Group)
-# class GroupAdmin(admin.ModelAdmin):
-#     search_fields = ('name',)
-#     ordering = ('name',)
-#     filter_horizontal = ('permissions',)
-#
-#     def formfield_for_manytomany(self, db_field, request=None, **kwargs):
-#         if db_field.name == 'permissions':
-#             qs = kwargs.get('queryset', db_field.remote_field.model.objects)
-#             # Avoid a major performance hit resolving permission names which
-#             # triggers a content_type load:
-#             kwargs['queryset'] = qs.select_related('content_type')
-#         return super().formfield_for_manytomany(db_field, request=request, **kwargs)
-
-
-@admin.register(User)  # importando a classe User da app base
+@admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     add_form_template = 'admin/auth/user/add_form.html'
     change_user_password_template = None
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         (_('Personal info'),
-         {'fields': ('first_name', 'last_name', 'cpf', 'fk_empresa', 'is_agente_admin', 'all_api_permissions')}),
+         {'fields': ('first_name', 'last_name', 'cpf', 'company', 'is_admin_agent', 'all_api_permissions')}),
         (_('Permissions'), {
             'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions'),
         }),
@@ -62,9 +45,9 @@ class UserAdmin(admin.ModelAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
     change_password_form = AdminPasswordChangeForm
-    list_display = ('email', 'first_name', 'last_name', 'is_staff', 'cpf', 'fk_empresa')
+    list_display = ('email', 'first_name', 'last_name', 'is_staff', 'cpf', 'company')
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
-    search_fields = ('first_name', 'email', 'fk_empresa')
+    search_fields = ('first_name', 'email', 'company')
     ordering = ('first_name',)
     filter_horizontal = ('groups', 'user_permissions',)
 
@@ -121,7 +104,7 @@ class UserAdmin(admin.ModelAdmin):
             raise PermissionDenied
         if extra_context is None:
             extra_context = {}
-        username_field = self.model._meta.get_field(self.model.USERNAME_FIELD)  # Vai setar o e-mail como username
+        username_field = self.model._meta.get_field(self.model.USERNAME_FIELD)
         defaults = {
             'auto_populated_fields': (),
             'username_help_text': username_field.help_text,
@@ -165,7 +148,7 @@ class UserAdmin(admin.ModelAdmin):
         adminForm = admin.helpers.AdminForm(form, fieldsets, {})
 
         context = {
-            'title': _('Change password: %s') % escape(user.get_username()),  # nao mudar isso tbm
+            'title': _('Change password: %s') % escape(user.get_username()),
             'adminForm': adminForm,
             'form_url': form_url,
             'form': form,
@@ -209,10 +192,10 @@ class UserAdmin(admin.ModelAdmin):
         return super().response_add(request, obj, post_url_continue)
 
 
-@admin.register(Empresa)
-class EmpresaAdmin(admin.ModelAdmin):
+@admin.register(Company)
+class CompanyAdmin(admin.ModelAdmin):
     list_display = (
-    'id', 'nome_empresa', 'cnpj', 'codigo_cliente', 'codigo_vendedor', 'statusEmpresa', 'tipoEmpresa', 'fk_tabelaPreco')
-    list_filter = ('nome_empresa', 'tipoEmpresa')
-    search_fields = ('nome_empresa', 'cnpj')
-    ordering = ('nome_empresa',)
+    'id', 'name', 'cnpj', 'client_code', 'vendor_code', 'status', 'type', 'price_table')
+    list_filter = ('name', 'type')
+    search_fields = ('name', 'cnpj')
+    ordering = ('name',)

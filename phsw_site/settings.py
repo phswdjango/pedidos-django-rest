@@ -50,8 +50,8 @@ AUTH_USER_MODEL = 'base.User'
 
 INSTALLED_APPS = [
     'phsw_site.base',
-    'phsw_site.pedidos',
-    'phsw_site.boleto',
+    'phsw_site.orders',
+    'phsw_site.documents',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -106,11 +106,6 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
-    # 'DEFAULT_PERMISSION_CLASSES': [
-    #     'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    # ]
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],
@@ -121,7 +116,7 @@ REST_FRAMEWORK = {
 
 WSGI_APPLICATION = 'phsw_site.wsgi.application'
 
-# Configurações de envio de email
+# SMTP
 
 EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
@@ -212,37 +207,35 @@ CONNECTFAST_ENABLED = False
 
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
 
-if AWS_ACCESS_KEY_ID:  # pragma: no cover
+if AWS_ACCESS_KEY_ID:
     CONNECTFAST_ENABLED = True
     STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-    COLLECTFAST_STRATEGY = "collectfast.strategies.boto3.Boto3Strategy"  # essa e a anterior sao o do collectfast
+    COLLECTFAST_STRATEGY = "collectfast.strategies.boto3.Boto3Strategy"
     INSTALLED_APPS.append('s3_folder_storage')
-    INSTALLED_APPS.append('storages')  # adicionar essas libs apenas se estiver com AWS configurado.
+    INSTALLED_APPS.append('storages')
     AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
     AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
-    AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400', }  # controle de tempo de cach do S3
+    AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400', }
     AWS_PRELOAD_METADATA = True
-    AWS_AUTO_CREATE_BUCKET = False  # nao vamos criar buckets automaticamente
-    AWS_QUERYSTRING_AUTH = True  # para gerar urls assinadas.
-    AWS_S3_CUSTOM_DOMAIN = None  # por q nos vamos utilizar o proprio dominio do S3
-    AWS_DEFAULT_ACL = 'private'  # para que nossos arquivos do S3 nao fiquem publicos.
+    AWS_AUTO_CREATE_BUCKET = False
+    AWS_QUERYSTRING_AUTH = True
+    AWS_S3_CUSTOM_DOMAIN = None
+    AWS_DEFAULT_ACL = 'private'
 
     # ---/Upload Media Folder
 
     DEFAULT_FILE_STORAGE = 's3_folder_storage.s3.DefaultStorage'
-    # classe dessa biblioteca que vai fazer a gestão de upload de midia
-    DEFAULT_S3_PATH = 'media'  # path padrão dos arquivos de midia.
+    DEFAULT_S3_PATH = 'media'
     MEDIA_ROOT = f'/{DEFAULT_S3_PATH}/'
-    MEDIA_URL = f'//{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/{DEFAULT_S3_PATH}/'  # '//' vai seguir https ou http
+    MEDIA_URL = f'//{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/{DEFAULT_S3_PATH}/'
 
     # -----/Static assets
 
     STATICFILES_STORAGE = 's3_folder_storage.s3.StaticStorage'
-    # classe da biblioteca que instalamos que vai fazer a gestão da pasta static.
-    STATIC_S3_PATH = 'static'  # path padrão dos arquivos estaticos
+    STATIC_S3_PATH = 'static'
     STATIC_ROOT = f'/{STATIC_S3_PATH}/'
     STATIC_URL = f'//{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/{STATIC_S3_PATH}/'
-    ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'  # separar os arquivos staticos de admin
+    ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
 
 # Mensagens (https://getbootstrap.com/docs/5.1/components/alerts/)
 MESSAGE_TAGS = {
@@ -258,5 +251,5 @@ AXES_FAILURE_LIMIT = 5
 AXES_COOLOFF_TIME = datetime.timedelta(seconds=5)
 AXES_ONLY_USER_FAILURES = True
 
-# Sessão em dias: 60s * 60m * 24h * 7d
+# Session age: 60s * 60m * 24h * 7d
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 7

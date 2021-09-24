@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+* {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  padding: 30px 50px 30px 50px;
+  width: 1200px;
+}
+
+
+[class*="col-"] {
+  float: left;
+  border: 2px solid black;
+}
+
+.row { min-height: 40px; }
+
+.col-banco {width: 19.1%; border-style: none; height: 30px }
+.col-codigo-banco {width: 8.7%; border-top-style: none; border-bottom-style: none; height: 40px; font-size: 20px; font-weight: bold; display: flex; justify-content: center; align-items: center;}
+.col-blank-header-space { width: 38.5%; border-style: none;}
+.col-recibo-do-pagador { width: 33.5%; border-style: none; display: flex; justify-content: center; align-items: end; height: 40px;}
+
+.col-beneficiario { width: 63.3% ; min-height: 62px; border-right: none; border-bottom: none;}
+.col-agencia-codigo-cedente { width: 36.7%; min-height: 62px; border-bottom: none;}
+
+.col-pagador { width: 63.3% ; border-right: none; border-bottom: none;}
+.col-nosso-numero { width: 36.7%; border-bottom: none;}
+
+.col-documento { width: 21.1%; border-right: none; }
+.col-parcela { width: 21.1%; border-right: none;}
+.col-vencimento { width: 21.1%; border-right: none;}
+.col-valor-documento { width: 36.7%;}
+
+.col-assinatura { width: 35%; height: 50px; border-top: none; }
+.col-assinatura2 { width: 65%; height: 50px;  border-top: none; border-left: none; }
+
+.col-linha-digitavel { width: 72.2% ; border-top: none; border-bottom: none; border-left: none; border-right: none; height: 40px; font-size: 18px; font-weight: bold; display: flex; justify-content: center; align-items: center;}
+
+.col-local-pagamento { width: 76.4%;  min-height: 40px; border-right: none; border-left: none; border-bottom: none; padding: 0 3px;}
+.col-vencimento2 { width: 23.6%;  min-height: 40px; border-right: none; border-bottom: none;}
+
+
+.col-beneficiario2 { width: 76.4%;  min-height: 40px; border-right: none; border-left: none; border-bottom: none; padding: 0 3px;}
+.col-agencia-codigo-beneficiario { width: 23.6%;  min-height: 40px; border-right: none; border-bottom: none;}
+
+.col-data-documento { width: 20.5%; min-height: 40px; border-right: none; border-bottom: none; border-left: none; }
+.col-numero-documento2 { width: 21.1%; min-height: 40px; border-right: none; border-bottom: none; }
+.col-especie-documento { width: 12.8%; min-height: 40px; border-right: none; border-bottom: none; }
+.col-aceite { width: 8.1%; min-height: 40px; border-right: none; border-bottom: none; }
+.col-data-processamento { width: 13.9%; min-height: 40px; border-right: none; border-bottom: none; }
+.col-nosso-numero2 { width: 23.6%; min-height: 40px; border-right: none; border-bottom: none; }
+
+.col-carteira { width: 31.1%; min-height: 40px; border-right: none; border-bottom: none; border-left: none;}
+.col-especie { width: 10.5%; min-height: 40px; border-right: none; border-bottom: none;}
+.col-quantidade { width: 20.9%; min-height: 40px; border-right: none; border-bottom: none;}
+.col-valor { width: 13.9%; min-height: 40px; border-right: none; border-bottom: none; }
+.col-valor-documento2 { width: 23.6%; min-height: 40px; border-right: none; border-bottom: none; }
+
+.col-instrucoes-responsabilidade { width: 76.4%; min-height: 200px; border-right: none; border-bottom: none; }
+.col-DOMOV { width: 23.6%; min-height: 200px; border-right: none; border-bottom: none;  }
+.col-DOMOV-inside { width: 100%; min-height: 40px;  border-right: none; border-top: none; border-left: none;  }
+
+.col-pagador2 { width: 100%; border-left: none; border-right: none; border-bottom: none;}
+
+.col-codigo-barras { width: 100%; border-left: none; border-right: none; }
+
+.linha-corte { width: 100%; }
+
+.conteudo { font-weight: bold; padding: 2px; margin: 0px; font-size: 13px;}
+.conteudo-centralizado { font-weight: bold; padding: 2px; margin: 0px; display: flex; justify-content: center; align-items: center;}
+.conteudo-nostyle {padding: 2px; margin: 0px;}
+.descritivo { font-size: 10px; margin: 0px; padding: 0px;}
+
+br {
+   display: block;
+   margin: 0px;
+   line-height:0px;
+   content: "";
+}
+
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row" id="header1">
+        <div class="col-banco"><img src="{{ banco }}" alt=""></div>
+        <div class="col-codigo-banco">{{ codigo_banco }}</div>
+        <div class="col-blank-header-space">&nbsp;</div>
+        <div class="col-recibo-do-pagador">Recibo do pagador</div>
+    </div>
+    <br>
+
+    <div class="row">
+        <div class="col-beneficiario"><p class="descritivo">Beneficiario:</p>
+            <div style="display: flex;"><p class="conteudo">{{ beneficiario }}&nbsp; - &nbsp;CNPJ: {{ CNPJ_beneficiario }}</p></div>
+            <br>
+            <p class="conteudo">{{ endereco_beneficiario }}</p></div>
+        <div class="col-agencia-codigo-cedente"><p class="descritivo">Agencia / Codigo Cedente:</p><br>
+            <p class="conteudo-centralizado">{{ agencia }} / {{ codigo_cedente }}</p></div>
+    </div>
+
+    <div class="row">
+        <div class="col-pagador"><p class="descritivo">Pagador:</p> <br>
+            <p class="conteudo">{{ pagador }}</p></div>
+        <div class="col-nosso-numero"><p class="descritivo">Nosso Numero:</p>
+            <p class="conteudo-centralizado">{{ nosso_numero }}</p></div>
+    </div>
+    <br>
+
+    <div class="row">
+        <div class="col-documento"><p class="descritivo">Documento:</p> <br>
+            <p class="conteudo-centralizado">{{ documento }}</p></div>
+        <div class="col-parcela"><p class="descritivo">Parcela:</p>
+            <p class="conteudo-centralizado">{{ parcela }}</p></div>
+        <div class="col-vencimento"><p class="descritivo">Vencimento:</p>
+            <p class="conteudo-centralizado">{{ vencimento }}</p></div>
+        <div class="col-valor-documento"><p class="descritivo">Valor do documento em R$:</p>
+            <p class="conteudo-centralizado">{{ valor_documento }}</p></div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-assinatura">
+            <p class="descritivo">Recebi(emos) o bloqueto com as caracteristicas acima, referente aos Docs:</p>
+            <p class="descritivo" style="padding-top: 19px; padding-left: 3px;">Data:</p>
+        </div>
+        <div class="col-assinatura2">
+            <p class="descritivo" style="padding-top: 32px; padding-left: 3px;">Assinatura:</p>
+        </div>
+    </div>
+    <!--    Espaco em branco-->
+    <div style="width: 100%; font-size: 10px; float: right; display: flex; align-items: center; justify-content: end; padding: 9px 0px 0px 0px; font-style: italic; ">
+        Corte na linha pontilhada.
+    </div>
+    <div class="linha-corte">
+        --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-banco"><img src="{{ banco }}" alt=""></div>
+        <div class="col-codigo-banco">{{ codigo_banco }}</div>
+        <div class="col-linha-digitavel">{{ linha_digitavel }}</div>
+    </div>
+    <br>
+
+    <div class="row">
+        <div class="col-local-pagamento"><p class="descritivo">Local pagamento:</p>
+            <div style="display: flex;"><p class="conteudo">{{ local_pagamento }}</p></div>
+        </div>
+        <div class="col-vencimento2"><p class="descritivo">Vencimento:</p><br>
+            <p class="conteudo-centralizado">{{ vencimento }}</p></div>
+    </div>
+
+    <div class="row">
+        <div class="col-beneficiario2"><p class="descritivo">Beneficiario:</p>
+            <div style="display: flex;"><p class="conteudo">{{ beneficiario }} - CNPJ: {{ CNPJ_beneficiario }}</p></div>
+        </div>
+        <div class="col-agencia-codigo-beneficiario"><p class="descritivo">Agencia / Codigo Beneficiario:</p><br>
+            <p class="conteudo-nostyle"> {{ agencia }} / {{ codigo_beneficiario }}</p></div>
+    </div>
+
+    <div class="row">
+        <div class="col-data-documento"><p class="descritivo">Data documento:</p> <br>
+            <p class="conteudo-nostyle">{{ data_documento }}</p></div>
+        <div class="col-numero-documento2"><p class="descritivo">Numero documento:</p>
+            <p class="conteudo-nostyle">{{ documento }}</p></div>
+        <div class="col-especie-documento"><p class="descritivo">Especie documento:</p>
+            <p class="conteudo-nostyle">{{ especie_documento }}</p></div>
+        <div class="col-aceite"><p class="descritivo">Aceite:</p>
+            <p class="conteudo-nostyle">{{ aceite }}</p></div>
+        <div class="col-data-processamento"><p class="descritivo">Data processamento:</p>
+            <p class="conteudo-nostyle">{{ data_processamento }}</p></div>
+        <div class="col-nosso-numero2"><p class="descritivo">Nosso numero:</p>
+            <p class="conteudo-nostyle">{{ nosso_numero }}</p></div>
+    </div>
+
+    <div class="row">
+        <div class="col-carteira"><p class="descritivo">Carteira:</p> <br>
+            <p class="conteudo-centralizado">{{ carteira }}</p></div>
+        <div class="col-especie"><p class="descritivo">Especie:</p>
+            <p class="conteudo-centralizado">{{ especie }}</p></div>
+        <div class="col-quantidade"><p class="descritivo">Quantidade:</p>
+            <p class="conteudo-nostyle">{{ quantidade }}</p></div>
+        <div class="col-valor"><p class="descritivo">Valor:</p>
+            <p class="conteudo-nostyle">{{ xvalor }}</p></div>
+        <div class="col-valor-documento2"><p class="descritivo">(=) Valor do documento:</p>
+            <p class="conteudo-centralizado">{{ valor_documento }}</p></div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-instrucoes-responsabilidade"><p class="descritivo">Instrucoes de responsabilidade do
+            Cedente:</p> <br>
+            <p class="conteudo-nostyle">{{ instrucoes_responsabilidade_1 }}<br>
+                {{ instrucoes_responsabilidade_2 }}<br>
+                {{ instrucoes_responsabilidade_3 }}<br>
+                {{ instrucoes_responsabilidade_4 }}<br>
+                {{ instrucoes_responsabilidade_5 }}<br>
+                {{ instrucoes_responsabilidade_6 }}<br>
+                {{ instrucoes_responsabilidade_7 }}<br>
+                {{ instrucoes_responsabilidade_8 }}<br>
+            </p></div>
+        <div class="col-DOMOV">
+            <div class="col-DOMOV-inside">
+                <p class="descritivo">(-) Desconto / Abatimento:</p>
+                <p class="conteudo-centralizado">{{ desconto_abatimento }}</p>
+            </div>
+            <div class="col-DOMOV-inside">
+                <p class="descritivo">(-) Outras Deducoes:</p>
+                <p class="conteudo-centralizado">{{ outras_deducoes }}</p>
+            </div>
+            <div class="col-DOMOV-inside">
+                <p class="descritivo">(+) Mora / Multa:</p>
+                <p class="conteudo-centralizado">{{ mora_multa }}</p>
+            </div>
+            <div class="col-DOMOV-inside">
+                <p class="descritivo">(+) Outros Acrescimos:</p>
+                <p class="conteudo-centralizado">{{ outros_acrescimos }}</p>
+            </div>
+            <div class="col-DOMOV-inside" style="border-bottom: none;">
+                <p class="descritivo">(=) Valor Cobrado:</p>
+                <p class="conteudo-centralizado">{{ valor_cobrado }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-pagador2">
+            <p class="descritivo">Pagador:</p>
+            <p class="conteudo" style=" padding: 0 14px; ">{{ pagador }} - CNPJ: {{ CNPJ_pagador }} <br>
+                {{ endereco_pagador }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-codigo-barras">
+            <p class="descritivo">Sacador / Avalista:</p>
+            <!--            <p class="conteudo" style=" padding: 0 14px; "></p>-->
+            <div>{{ barcode_svg }}</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -43,51 +43,51 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="pedido" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="order" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Pedidos
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="pedido">
-                            <li><a class="dropdown-item" href="{% url 'pedidos:fazer_pedido' %}">Fazer pedido</a></li>
-                            <li><a class="dropdown-item" href="{% url 'pedidos:ver_pedidos' %}">Ver Pedidos</a></li>
+                        <ul class="dropdown-menu" aria-labelledby="order">
+                            <li><a class="dropdown-item" href="{% url 'orders:make_order' %}">Fazer pedido</a></li>
+                            <li><a class="dropdown-item" href="{% url 'orders:view_orders' %}">Ver Pedidos</a></li>
                         </ul>
                     </li>
-                    {% if user.is_agente_admin %}
+                    {% if user.is_admin_agent %}
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="itens" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="items" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Itens
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="itens">
-                            <li><a class="dropdown-item" href="{% url 'pedidos:criar_item' %}">Criar Item</a></li>
-                            <li><a class="dropdown-item" href="{% url 'pedidos:editar_itens' %}">Editar Itens</a></li>
-                            <li><a class="dropdown-item" href="{% url 'pedidos:criar_categoria' %}">Criar categoria</a></li>
-                            <li><a class="dropdown-item" href="{% url 'pedidos:editar_categoria' %}">Editar categoria</a></li>
+                        <ul class="dropdown-menu" aria-labelledby="items">
+                            <li><a class="dropdown-item" href="{% url 'orders:create_item' %}">Criar Item</a></li>
+                            <li><a class="dropdown-item" href="{% url 'orders:edit_items' %}">Editar Itens</a></li>
+                            <li><a class="dropdown-item" href="{% url 'orders:create_category' %}">Criar categoria</a></li>
+                            <li><a class="dropdown-item" href="{% url 'orders:edit_category' %}">Editar categoria</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="tabelapreco" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="pricetable" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Tabela de Preço
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="tabelapreco">
-                            <li><a class="dropdown-item" href="{% url 'pedidos:criar_tabela_preco' %}">Criar Tabela de Preço</a></li>
-                            <li><a class="dropdown-item" href="{% url 'pedidos:editar_tabelas_preco' %}">Editar Tabelas de Preço</a></li>
+                        <ul class="dropdown-menu" aria-labelledby="pricetable">
+                            <li><a class="dropdown-item" href="{% url 'orders:create_price_table' %}">Criar Tabela de Preço</a></li>
+                            <li><a class="dropdown-item" href="{% url 'orders:edit_price_table' %}">Editar Tabelas de Preço</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="usuarios" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="user" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Usuários
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="usuarios">
-                            <li><a class="dropdown-item" href="{% url 'base:criar_usuario' %}">Criar Usuário</a></li>
-                            <li><a class="dropdown-item" href="{% url 'base:editar_usuario' %}">Editar Usuário</a></li>
+                        <ul class="dropdown-menu" aria-labelledby="user">
+                            <li><a class="dropdown-item" href="{% url 'base:create_user' %}">Criar Usuário</a></li>
+                            <li><a class="dropdown-item" href="{% url 'base:edit_user' %}">Editar Usuário</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="empresa" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="company" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Empresa
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="empresa">
-                            <li><a class="dropdown-item" href="{% url 'base:criar_empresa' %}">Criar Empresa</a></li>
-                            <li><a class="dropdown-item" href="{% url 'base:editar_empresa' %}">Editar Empresa</a></li>
+                        <ul class="dropdown-menu" aria-labelledby="company">
+                            <li><a class="dropdown-item" href="{% url 'base:create_company' %}">Criar Empresa</a></li>
+                            <li><a class="dropdown-item" href="{% url 'base:edit_company' %}">Editar Empresa</a></li>
                         </ul>
                     </li>
 
@@ -115,7 +115,7 @@
             <a class="btn btn-light my-2" href="{% url 'login' %}">Entrar</a>
             {% endif %}
         </div>
-        <!-- Fim da nav bar -->
+        <!-- End of navbar -->
     </nav>
     <!-- Body -->
     <div class="container-fluid mr-auto mb-3 mt-3">
@@ -124,9 +124,8 @@
         {% endblock body %}
 
     </div>
-    <!-- Fim do body -->
+    <!-- End of Body -->
     <div id="add-footer-margin"></div>
-    <!-- footer-->
     <footer class="main-footer pt-4 text-light">
         <div class="container">
             <div class="row">
@@ -142,6 +141,7 @@
             </div>
 
         </div>
+    <!-- Footer-->
         <div class="footer-bottom pb-4">
             <div class="container">
                 <div class="row">
@@ -152,7 +152,7 @@
             </div>
         </div>
     </footer>
-    <!-- Fim do footer -->
+    <!-- End of footer-->
 </div>
 </body>
 </html>
