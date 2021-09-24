@@ -163,22 +163,22 @@ br {
             <div style="display: flex;"><p class="conteudo">{{ beneficiario }} - CNPJ: {{ CNPJ_beneficiario }}</p></div>
         </div>
         <div class="col-agencia-codigo-beneficiario"><p class="descritivo">Agencia / Codigo Beneficiario:</p><br>
-            <p class="conteudo-centralizado"> {{ agencia }} / {{ codigo_beneficiario }}</p></div>
+            <p class="conteudo-nostyle"> {{ agencia }} / {{ codigo_beneficiario }}</p></div>
     </div>
 
     <div class="row">
         <div class="col-data-documento"><p class="descritivo">Data documento:</p> <br>
-            <p class="conteudo-centralizado">{{ data_documento }}</p></div>
+            <p class="conteudo-nostyle">{{ data_documento }}</p></div>
         <div class="col-numero-documento2"><p class="descritivo">Numero documento:</p>
-            <p class="conteudo-centralizado">{{ documento }}</p></div>
+            <p class="conteudo-nostyle">{{ documento }}</p></div>
         <div class="col-especie-documento"><p class="descritivo">Especie documento:</p>
-            <p class="conteudo-centralizado">{{ especie_documento }}</p></div>
+            <p class="conteudo-nostyle">{{ especie_documento }}</p></div>
         <div class="col-aceite"><p class="descritivo">Aceite:</p>
-            <p class="conteudo-centralizado">{{ aceite }}</p></div>
+            <p class="conteudo-nostyle">{{ aceite }}</p></div>
         <div class="col-data-processamento"><p class="descritivo">Data processamento:</p>
-            <p class="conteudo-centralizado">{{ data_processamento }}</p></div>
+            <p class="conteudo-nostyle">{{ data_processamento }}</p></div>
         <div class="col-nosso-numero2"><p class="descritivo">Nosso numero:</p>
-            <p class="conteudo-centralizado">{{ nosso_numero }}</p></div>
+            <p class="conteudo-nostyle">{{ nosso_numero }}</p></div>
     </div>
 
     <div class="row">
@@ -187,9 +187,9 @@ br {
         <div class="col-especie"><p class="descritivo">Especie:</p>
             <p class="conteudo-centralizado">{{ especie }}</p></div>
         <div class="col-quantidade"><p class="descritivo">Quantidade:</p>
-            <p class="conteudo-centralizado">{{ quantidade }}</p></div>
+            <p class="conteudo-nostyle">{{ quantidade }}</p></div>
         <div class="col-valor"><p class="descritivo">Valor:</p>
-            <p class="conteudo-centralizado">{{ xvalor }}</p></div>
+            <p class="conteudo-nostyle">{{ xvalor }}</p></div>
         <div class="col-valor-documento2"><p class="descritivo">(=) Valor do documento:</p>
             <p class="conteudo-centralizado">{{ valor_documento }}</p></div>
     </div>
@@ -198,7 +198,15 @@ br {
     <div class="row">
         <div class="col-instrucoes-responsabilidade"><p class="descritivo">Instrucoes de responsabilidade do
             Cedente:</p> <br>
-            <p class="conteudo-nostyle">{{ instrucoes_responsabilidade }}</p></div>
+            <p class="conteudo-nostyle">{{ instrucoes_responsabilidade_1 }}<br>
+                {{ instrucoes_responsabilidade_2 }}<br>
+                {{ instrucoes_responsabilidade_3 }}<br>
+                {{ instrucoes_responsabilidade_4 }}<br>
+                {{ instrucoes_responsabilidade_5 }}<br>
+                {{ instrucoes_responsabilidade_6 }}<br>
+                {{ instrucoes_responsabilidade_7 }}<br>
+                {{ instrucoes_responsabilidade_8 }}<br>
+            </p></div>
         <div class="col-DOMOV">
             <div class="col-DOMOV-inside">
                 <p class="descritivo">(-) Desconto / Abatimento:</p>
