@@ -1,8 +1,8 @@
 DEBUG=True
-SECRET_KEY=Sua chave secreta
+SECRET_KEY=Your_secret_key
 ALLOWED_HOSTS=localhost, 127.0.0.1
 
-#-------------Banco de dados
+#------------- Database
 DATABASE_URL=postgres://postgres:postgres@localhost:5432/testdb
 # DATABASE_URL=<protocolo postgres>://<usuario>:<senha>@<endereço ip>:<porta>/<nome_do_banco>
 
@@ -15,7 +15,7 @@ INTERNAL_IPS=127.0.0.1
 #-------------Sentry
 SENTRY_DSN=
 
-#---------SMTP com anymail e mailgun
+#---------SMTP with anymail and mailgun
 EMAIL_BACKEND=anymail.backends.mailgun.EmailBackend
 DEFAULT_FROM_EMAIL=
 SERVER_EMAIL=

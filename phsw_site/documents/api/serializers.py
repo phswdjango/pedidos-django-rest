@@ -1,0 +1,43 @@
+from rest_framework import serializers
+
+
+class FieldsBoletoSerializer(serializers.Serializer):
+    banco = serializers.CharField()
+    codigo_banco = serializers.CharField(max_length=8)
+    linha_digitavel = serializers.CharField(max_length=78)
+    codigo_barras = serializers.CharField(max_length=44)
+    CNPJ_beneficiario = serializers.CharField(max_length=18)
+    beneficiario = serializers.CharField(max_length=92)
+    agencia = serializers.CharField(max_length=12)
+    codigo_cedente = serializers.CharField(max_length=14)
+    endereco_beneficiario = serializers.CharField(max_length=98)
+    pagador = serializers.CharField(max_length=91)
+    nosso_numero = serializers.CharField(max_length=26)
+    documento = serializers.CharField(max_length=20)
+    parcela = serializers.CharField(max_length=26)
+    vencimento = serializers.CharField(max_length=26)
+    valor_documento = serializers.CharField(max_length=19)
+    local_pagamento = serializers.CharField(max_length=108)
+    codigo_beneficiario = serializers.CharField(max_length=17)
+    especie_documento = serializers.CharField(max_length=12)
+    aceite = serializers.CharField(max_length=7)
+    data_processamento = serializers.CharField(max_length=16)
+    data_documento = serializers.CharField(max_length=16)
+    carteira = serializers.CharField(max_length=33)
+    quantidade = serializers.CharField(allow_blank=True, max_length=22)
+    xvalor = serializers.CharField(allow_blank=True, max_length=16)
+    especie = serializers.CharField(allow_blank=True, max_length=11)
+    instrucoes_responsabilidade = serializers.CharField(max_length=419)
+    desconto_abatimento = serializers.CharField(allow_blank=True, max_length=23)
+    outras_deducoes = serializers.CharField(allow_blank=True, max_length=23)
+    mora_multa = serializers.CharField(allow_blank=True, max_length=19)
+    outros_acrescimos = serializers.CharField(allow_blank=True, max_length=19)
+    valor_cobrado = serializers.CharField(allow_blank=True, max_length=22)
+    CNPJ_pagador = serializers.CharField(max_length=16)
+    endereco_pagador = serializers.CharField(max_length=171)
+
+
+class BoletoSerializer(serializers.Serializer):
+    comando = serializers.CharField(max_length=15)
+    modelo = serializers.CharField(max_length=15)
+    campos = FieldsBoletoSerializer()

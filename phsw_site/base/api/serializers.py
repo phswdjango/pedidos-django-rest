@@ -8,7 +8,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'cpf', 'fk_empresa', 'is_agente_admin', 'password', 'password2']
+        fields = ['first_name', 'last_name', 'email', 'cpf', 'company', 'is_admin_agent', 'password', 'password2']
         extra_kwargs = {
             'password': {'write_only': True}
         }
@@ -19,8 +19,8 @@ class RegistrationSerializer(serializers.ModelSerializer):
             last_name=self.validated_data['last_name'],
             email=self.validated_data['email'],
             cpf=self.validated_data['cpf'],
-            fk_empresa=self.validated_data['fk_empresa'],
-            is_agente_admin=self.validated_data['is_agente_admin'],
+            is_admin_agent=self.validated_data['company'],
+            is_agente_admin=self.validated_data['is_admin_agent'],
         )
         password = self.validated_data['password']
         password2 = self.validated_data['password2']
@@ -34,15 +34,15 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     days_since_joined = serializers.SerializerMethodField()
-    empresa = serializers.SerializerMethodField()
+    company = serializers.SerializerMethodField()
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'cpf', 'is_agente_admin', 'empresa',
+        fields = ['first_name', 'last_name', 'email', 'cpf', 'is_admin_agent', 'company',
                   'days_since_joined']
 
     def get_days_since_joined(self, obj):
         return (now() - obj.date_joined).days
 
-    def get_empresa(self, obj):
-        return str(obj.fk_empresa)
+    def get_company(self, obj):
+        return str(obj.company)

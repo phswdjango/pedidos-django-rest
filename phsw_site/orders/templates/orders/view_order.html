@@ -1,0 +1,40 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}PHSW - Pedidos{% endblock title %}
+{% block body%}
+
+{% if order %}
+<h1>Itens do pedido</h1>
+<div class="table-responsive">
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Id pedido</th>
+        <th scope="col">Item</th>
+        <th scope="col">Qtd</th>
+        <th scope="col">Preço Unitario</th>
+        <th scope="col">Data</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for item in order %}
+    <tr>
+        <th scope="row"><p style="margin: 20px 15px;">{{ item.order_id }}</p></th>
+        <td><p style="margin: 20px 15px;">{{ item.item }}</p></td>
+        <td><p style="margin: 20px 15px;">{{ item.quantity }}</p></td>
+        <td><p style="margin: 20px 15px;">{{ item.unit_price }}</p></td>
+        <td><p style="margin: 20px 15px;">{{ item.date }}</p></td>
+
+
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+{% else %}
+<p>Pedido vazio</p>
+{% endif %}
+
+{% endblock body%}
+

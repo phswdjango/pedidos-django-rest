@@ -1,0 +1,91 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}PHSW - Pedidos{% endblock title %}
+{% block body%}
+<h2 class="mt-5">Meus Pedidos</h2>
+
+<br><br>
+<h4>Pesquise um status</h4>
+<form method="get" action="{% url 'orders:view_orders' %}">
+    <div class="form-group row">
+        <div class="col-12">
+            <input class="form-control"
+                   type="search" value="{{ request.GET.term }}"
+                   id="search-input"
+                   placeholder="Digite sua pesquisa"
+                   name="term">
+        </div>
+    </div>
+</form>
+<br>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Código do Pedido</th>
+            <th scope="col">Usuario</th>
+            <th scope="col">Empresa</th>
+            <th scope="col">Status</th>
+            <th scope="col">Valor Total</th>
+            <th scope="col">Data do pedido</th>
+            <th scope="col">Ver pedido</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+        <tr>
+            <th scope="row">{{order.id}}</th>
+            {% if user.is_admin_agent %}
+            <td>{{order.user.first_name}} {{order.user.last_name}}</td>
+            {% else %}
+            <td>{{user.first_name}} {{user.last_name}}</td>
+            {% endif %}
+            <td>{{order.company.name}}</td>
+            {% if order.get_status_display == "Faturado" %}
+            <td style="color:green; font-weight: bold;">{{order.get_status_display}}</td>
+            {% elif order.get_status_display == "Cancelado" %}
+            <td style="color:red; font-weight: bold;">{{order.get_status_display}}</td>
+            {% elif order.get_status_display == "Entregue" %}
+            <td style="color:darkgreen; font-weight: bold;">{{order.get_status_display}}</td>
+            {% elif order.get_status_display == "Registrado" %}
+            <td style="color:black; font-weight: bold;">{{order.get_status_display}}</td>
+            {% elif order.get_status_display == "Transferido" %}
+            <td style="color:blue; font-weight: bold;">{{order.get_status_display}}</td>
+            {% elif order.get_status_display == "Digitação" %}
+            <td style="color:black; font-weight: bold;">{{order.get_status_display}}</td>
+            {% else %}
+            <td style="font-weight: bold;">{{order.get_status_display}}</td>
+            {% endif %}
+            <td>R$ {{order.order_amount}}</td>
+            <td>{{order.order_date}}</td>
+            <td>
+                <form action="{% url 'orders:view_order' %}" method="post" target="_blank">
+                    {% csrf_token %}
+                    <button class="btn btn-primary" type="submit" value="{{ order.id }}" name="id_order">Ver pedido</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+</div>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        {% for page in orders.paginator.page_range %}
+        {% if orders.number == page %}
+        <li class="page-item active">
+            <a class="page-link" href="?page={{ page }}&term={{ request.GET.term }}">{{page}}</a>
+        </li>
+        {% else %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page }}&term={{ request.GET.term }}">{{page}}</a>
+        </li>
+        {% endif %}
+
+        {% endfor %}
+    </ul>
+</nav>
+{% endblock body%}

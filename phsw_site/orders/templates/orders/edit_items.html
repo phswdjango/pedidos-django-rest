@@ -1,0 +1,77 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}PHSW - Pedidos{% endblock title %}
+{% block body%}
+
+<h1 class="mt-5">Editar itens</h1>
+</br>
+
+<div class="accordion" id="accordionPanelsStayOpenExample">
+    {% include 'partials/_messages.html'%}
+    <form action="{% url 'orders:edit_items'%}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for category in categories %}
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="panelsStayOpen-heading-{{ category.id }}">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse-{{ category.id }}"
+                    aria-expanded="false"
+                    aria-controls="panelsStayOpen-collapse-{{ category.id }}">
+                {{ category.verbose_name }}
+            </button>
+        </h2>
+        <div id="panelsStayOpen-collapse-{{ category.id }}" class="accordion-collapse collapse"
+             aria-labelledby="panelsStayOpen-heading-{{ category.id }}">
+            <div class="accordion-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Imagem</th>
+                            <th scope="col">Código</th>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Valor</th>
+                            <th scope="col">Descrição</th>
+                            <th scope="col">Unidade</th>
+                            <th scope="col">Categoria</th>
+                            <th scope="col">Código de barras</th>
+                            <th scope="col">Ativado</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in category.items %}
+                            <tr>
+                                <td><p><img src="{{ item.image.url }}" style="max-width: 115px; height: auto;"></p><br><input type="file" name="item-image-{{ item.id }}" id="item-image-{{ item.id }}" accept="image/*"></td>
+                                <td><p style="margin: 20px 15px;">{{ item.id }}</p></td>
+                                <td><p style="margin: 20px 15px;"><input type="text" name="item-name-{{ item.id }}" maxlength="50" required id="item-name-{{ item.id }}" value="{{ item.verbose_name }}"></p></td>
+                                <td><p style="margin: 20px 15px;">R$ X</p></td>
+                                <td><p style="margin: 20px 15px;"><textarea name="item-description-{{ item.id }}" cols="40" rows="2" required id="item-description-{{ item.id }}">{{ item.description }}</textarea></p></td>
+                                <td><p style="margin: 20px 15px;"><input type="text" name="item-unit-{{ item.id }}" maxlength="10" required id="item-unit-{{ item.id }}" value="{{ item.unit }}"></p></td>
+                                <td><p style="margin: 20px 15px;"><select name="item-category-{{ item.id }}" required id="item-category-{{ item.id }}">{% for category in categories %}<option value="{{category.id}}" {% if category.id == item.category_id %} selected {% endif %}>{{category}}</option>{% endfor %}</select> </p></td>
+                                <td><p style="margin: 20px 15px;"><input type="text" name="item-bar_code-{{ item.id }}" maxlength="13" required id="item-bar_code-{{ item.id }}" value="{{ item.bar_code }}"> </p></td>
+                                <td><p style="margin: 20px 15px;"><input type="checkbox" name="item-active-{{ item.id }}" id="item-active-{{ item.id }}" {% if item.active %}checked{% endif %}> </p></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    </br>
+        <button class="btn btn-primary" type="submit" value="#" name="edited_items">Editar Itens</button>
+    </form>
+    </br>
+</div>
+
+<div>
+    <p>
+        {% if request.POST %}
+            {{ request.POST }}
+        {% endif %}
+    </p>
+</div>
+
+
+{% endblock body %}
