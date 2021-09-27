@@ -1,0 +1,38 @@
+dict = {
+       "banco": "sicoob",
+       "codigo_banco": "333dx6",
+       "linha_digitavel": "7569100330070010480040000000095000000000000000000000000000x61",
+       "codigo_barras": "7569187460000268000133000104804950000069444",
+       "CNPJ_beneficiario": "111111111111111x18",
+       "beneficiario": "Soluma Solucoes em Inform Corpoffffffffffffffffffffffffffffx62",
+       "agencia": "3305588x10",
+       "codigo_cedente": "4899988888x13",
+       "endereco_beneficiario": "AV. SAO PAULO, QD. LT.08 AP.02 - VILA BRASILIA 55555775-8P. DE GOIANIA-GO - 74905-x85",
+       "pagador": "ALUCENTRO CENTRAL DE ALUM66666666667777777777777777777778888888888888888x75",
+       "nosso_numero": "0000000000004-x17",
+       "documento": "00700000000000000675",
+       "parcela": "444affggggfffffffffffffx20",
+       "vencimento": "10/09/2098",
+       "valor_documento": "5.906,1833333333333",
+       "local_pagamento": "PAGAVEL PREFERENCIALMENTE NO SICOOB aaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbb",
+       "codigo_beneficiario": "123456fffffffffff",
+       "especie_documento": "DMaaaaaaaaaa",
+       "aceite": "Naaaaaa",
+       "data_processamento": "10/01/aa2002aaaa",
+       "data_documento": "10/01/aa2002aaaa",
+       "carteira": "1aaaaaaaaaaaaaaaaa",
+       "quantidade": "10000000000000",
+       "xvalor": "xvalor-aaaaaaaaa",
+       "especie": "232311,00",
+       "instrucoes_responsabilidade_1": "aaaa bbeeeeeeeeeeeeeeeeeeeeeeeeeeaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbb",
+       "desconto_abatimento": "aaaaaaaaaaaaaaaaaaaaaaa",
+       "outras_deducoes": "aaaaaaaaaaaaaaaaaaaaaaa",
+       "mora_multa": "aaaaaaaaaaaaaaaaaaa",
+       "outros_acrescimos": "aaaaaaaaaaaaaaaaaaa",
+       "valor_cobrado": "aaaaaaaaaaaaaaaaaaaaaa",
+       "CNPJ_pagador": "3908240984208402",
+       "endereco_pagador": "asjdflkaj alfdjlfdja afdljaaaaadljfdaaaaaaaa aaaaaa alfjalfdj fljjaaaaaaaaaaa  aaaaaa  aaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+}
+for key, value in dict.items():
+    length = len(value)
+    print(key + ": ",  length)
